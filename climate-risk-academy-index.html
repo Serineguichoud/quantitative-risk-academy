@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Quantitative Climate Risk Modelling — a professional training programme covering risk measures, extreme value theory, network science, climate risk modelling and AI." />
+  <title>Quantitative Climate Risk Modelling | Climate Risk Academy</title>
+
+  <style>
+    :root{
+      --navy:#071b3d;
+      --navy-2:#0b2a5b;
+      --blue:#2f78c8;
+      --blue-soft:#eaf3ff;
+      --text:#20242a;
+      --muted:#667085;
+      --line:#e7eaf0;
+      --bg:#f7f9fc;
+      --white:#ffffff;
+      --shadow:0 18px 50px rgba(10, 34, 72, .10);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:var(--white);
+      line-height:1.6;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1120px, calc(100% - 40px)); margin:0 auto}
+
+    /* NAV */
+    nav{
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:rgba(255,255,255,.94);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(231,234,240,.9);
+    }
+    .nav-inner{
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .brand{
+      font-weight:750;
+      letter-spacing:-.02em;
+      color:var(--navy);
+      font-size:1.05rem;
+    }
+    .brand span{color:var(--blue)}
+    .nav-links{display:flex;align-items:center;gap:28px;font-size:.95rem;color:#4f5968}
+    .nav-links a:hover{color:var(--blue)}
+    .nav-cta{
+      padding:10px 17px;
+      border-radius:10px;
+      background:var(--navy);
+      color:white !important;
+      font-weight:650;
+    }
+
+    /* HERO */
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(50,125,220,.28), transparent 28%),
+        radial-gradient(circle at 12% 12%, rgba(241,92,45,.16), transparent 22%),
+        linear-gradient(135deg, #06152f 0%, #0a285b 60%, #123d7b 100%);
+      color:white;
+      padding:110px 0 105px;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size:44px 44px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.75), transparent);
+      pointer-events:none;
+    }
+    .hero-inner{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      align-items:center;
+      gap:70px;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      padding:7px 12px;
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      font-size:.82rem;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:22px;
+    }
+    h1{
+      font-size:clamp(2.6rem, 6vw, 5.2rem);
+      line-height:1.02;
+      margin:0 0 24px;
+      letter-spacing:-.055em;
+      max-width:850px;
+    }
+    .hero p{
+      font-size:1.16rem;
+      color:rgba(255,255,255,.80);
+      max-width:690px;
+      margin:0 0 34px;
+    }
+    .buttons{display:flex;gap:14px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      padding:14px 20px;
+      border-radius:12px;
+      font-weight:700;
+      transition:.2s ease;
+    }
+    .btn-primary{background:white;color:var(--navy)}
+    .btn-primary:hover{transform:translateY(-2px)}
+    .btn-secondary{border:1px solid rgba(255,255,255,.28);color:white;background:rgba(255,255,255,.06)}
+    .btn-secondary:hover{background:rgba(255,255,255,.11)}
+
+    .hero-card{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:24px;
+      padding:28px;
+      box-shadow:0 24px 70px rgba(0,0,0,.18);
+      backdrop-filter:blur(12px);
+    }
+    .hero-card h3{margin:0 0 18px;font-size:1rem;color:#dbeafe}
+    .hero-card ul{list-style:none;padding:0;margin:0;display:grid;gap:13px}
+    .hero-card li{display:flex;gap:12px;align-items:flex-start;color:#f6f8fb}
+    .tick{
+      width:22px;height:22px;border-radius:50%;
+      background:rgba(255,255,255,.14);
+      display:grid;place-items:center;flex:0 0 22px;
+      font-size:.75rem;
+    }
+
+    /* SECTIONS */
+    section{padding:88px 0}
+    .soft{background:var(--bg)}
+    .section-kicker{
+      color:var(--blue);
+      font-weight:750;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-size:.78rem;
+      margin-bottom:10px;
+    }
+    h2{
+      color:var(--navy);
+      font-size:clamp(2rem, 4vw, 3rem);
+      line-height:1.12;
+      letter-spacing:-.04em;
+      margin:0 0 18px;
+    }
+    .lead{
+      max-width:760px;
+      color:var(--muted);
+      font-size:1.08rem;
+      margin:0;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+      margin-top:40px;
+    }
+    .card{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:0 8px 25px rgba(12, 37, 76, .04);
+    }
+    .card h3{margin:8px 0 9px;color:var(--navy);font-size:1.1rem}
+    .card p{margin:0;color:var(--muted);font-size:.97rem}
+    .icon{
+      width:44px;height:44px;border-radius:12px;
+      background:var(--blue-soft);
+      color:var(--blue);
+      display:grid;place-items:center;
+      font-weight:800;
+    }
+
+    .modules{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:14px;
+      margin-top:42px;
+    }
+    .module{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:22px 18px;
+      background:white;
+      min-height:160px;
+    }
+    .num{
+      font-size:.78rem;
+      font-weight:800;
+      color:var(--blue);
+      letter-spacing:.08em;
+    }
+    .module h3{font-size:1rem;color:var(--navy);line-height:1.25;margin:12px 0 0}
+
+    .about{
+      display:grid;
+      grid-template-columns:.85fr 1.15fr;
+      gap:60px;
+      align-items:center;
+    }
+    .profile{
+      border-radius:24px;
+      background:linear-gradient(145deg,#0b2a5b,#164f9d);
+      min-height:330px;
+      display:flex;
+      align-items:end;
+      padding:28px;
+      color:white;
+      box-shadow:var(--shadow);
+    }
+    .profile small{display:block;color:rgba(255,255,255,.68);margin-top:4px}
+    .about-list{display:grid;gap:14px;margin-top:28px}
+    .about-item{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      color:#475467;
+    }
+    .dot{
+      width:8px;height:8px;background:var(--blue);border-radius:50%;
+      margin-top:9px;flex:0 0 8px;
+    }
+
+    .cta{
+      padding:80px 0;
+      background:var(--navy);
+      color:white;
+    }
+    .cta-box{
+      display:flex;
+      justify-content:space-between;
+      gap:30px;
+      align-items:center;
+    }
+    .cta h2{color:white;margin-bottom:10px}
+    .cta p{color:rgba(255,255,255,.74);margin:0;max-width:670px}
+
+    footer{
+      padding:30px 0;
+      font-size:.88rem;
+      color:#7b8491;
+      border-top:1px solid var(--line);
+    }
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+    @media(max-width:900px){
+      .hero-inner,.about{grid-template-columns:1fr}
+      .hero-card{max-width:640px}
+      .grid-3{grid-template-columns:1fr}
+      .modules{grid-template-columns:repeat(2,1fr)}
+      .nav-links a:not(.nav-cta){display:none}
+      .cta-box{align-items:flex-start;flex-direction:column}
+    }
+
+    @media(max-width:560px){
+      .container{width:min(100% - 28px,1120px)}
+      .hero{padding:80px 0}
+      .modules{grid-template-columns:1fr}
+      h1{font-size:2.75rem}
+      .profile{min-height:260px}
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="brand" href="#">Climate Risk <span>Academy</span></a>
+
+    <div class="nav-links">
+      <a href="#programme">Programme</a>
+      <a href="#about">About</a>
+      <a class="nav-cta"
+         href="https://guttural-coreopsis-39d.notion.site/Quantitative-Climate-Risk-Modelling-38b78969b083800686c6e8a73643e32e">
+        View Course
+      </a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-inner">
+    <div>
+      <div class="eyebrow">Professional quantitative training</div>
+
+      <h1>Quantitative Climate Risk Modelling</h1>
+
+      <p>
+        Build a rigorous quantitative understanding of climate risk through
+        risk measures, Extreme Value Theory, network science, climate risk
+        modelling and Artificial Intelligence.
+      </p>
+
+      <div class="buttons">
+        <a class="btn btn-primary"
+           href="https://guttural-coreopsis-39d.notion.site/Quantitative-Climate-Risk-Modelling-38b78969b083800686c6e8a73643e32e">
+          Explore the Course →
+        </a>
+
+        <a class="btn btn-secondary" href="#programme">
+          View Programme
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <h3>Inside the programme</h3>
+      <ul>
+        <li><span class="tick">✓</span><span>5 structured modules</span></li>
+        <li><span class="tick">✓</span><span>Quantitative theory and practical exercises</span></li>
+        <li><span class="tick">✓</span><span>R and Python applications</span></li>
+        <li><span class="tick">✓</span><span>Accompanying ebook</span></li>
+        <li><span class="tick">✓</span><span>Certificate of Completion after final project review</span></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="section-kicker">Why this programme?</div>
+    <h2>From climate data to financial risk.</h2>
+    <p class="lead">
+      Climate risk requires more than qualitative scenarios. This programme
+      focuses on the quantitative methods used to measure extreme events,
+      model economic impacts and analyse how shocks can propagate through
+      interconnected systems.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="icon">01</div>
+        <h3>Quantitative foundations</h3>
+        <p>
+          Develop a rigorous understanding of risk measures, distributions
+          and the mathematical foundations used in climate risk analysis.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">02</div>
+        <h3>Climate risk modelling</h3>
+        <p>
+          Move from climate indicators to economic and financial impacts
+          through quantitative modelling approaches.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">03</div>
+        <h3>Practical implementation</h3>
+        <p>
+          Apply the methods through exercises and modelling examples using
+          modern quantitative tools.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="programme" class="soft">
+  <div class="container">
+    <div class="section-kicker">Programme</div>
+    <h2>Five modules, one quantitative framework.</h2>
+    <p class="lead">
+      The programme progresses from classical risk measurement to advanced
+      climate risk modelling and Artificial Intelligence.
+    </p>
+
+    <div class="modules">
+      <div class="module">
+        <div class="num">MODULE 01</div>
+        <h3>Risk Measures</h3>
+      </div>
+
+      <div class="module">
+        <div class="num">MODULE 02</div>
+        <h3>Extreme Value Theory</h3>
+      </div>
+
+      <div class="module">
+        <div class="num">MODULE 03</div>
+        <h3>Network Science</h3>
+      </div>
+
+      <div class="module">
+        <div class="num">MODULE 04</div>
+        <h3>Climate Risk Modelling</h3>
+      </div>
+
+      <div class="module">
+        <div class="num">MODULE 05</div>
+        <h3>AI for Quantitative Climate Risk</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container about">
+    <div class="profile">
+      <div>
+        <strong>Dr. Serine Guichoud</strong>
+        <small>Quantitative climate risk research & training</small>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-kicker">About the course</div>
+      <h2>Built from quantitative research and teaching.</h2>
+
+      <p class="lead">
+        The programme is developed from original doctoral research conducted
+        at Sorbonne University and is designed for participants who want to
+        understand climate risk through quantitative methods rather than
+        qualitative frameworks alone.
+      </p>
+
+      <div class="about-list">
+        <div class="about-item">
+          <span class="dot"></span>
+          <span>Designed for researchers, economists, risk professionals and quantitative analysts.</span>
+        </div>
+
+        <div class="about-item">
+          <span class="dot"></span>
+          <span>Combines theory with practical exercises throughout the programme.</span>
+        </div>
+
+        <div class="about-item">
+          <span class="dot"></span>
+          <span>Connects statistical methods, network analysis, climate modelling and AI.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container cta-box">
+    <div>
+      <h2>Explore the full programme.</h2>
+      <p>
+        View the course structure, detailed modules and enrolment information
+        on the Climate Risk Academy course page.
+      </p>
+    </div>
+
+    <a class="btn btn-primary"
+       href="https://guttural-coreopsis-39d.notion.site/Quantitative-Climate-Risk-Modelling-38b78969b083800686c6e8a73643e32e">
+      Open Course Page →
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© 2026 Serine Guichoud. All rights reserved.</span>
+    <span>Climate Risk Academy</span>
+  </div>
+</footer>
+
+</body>
+</html>
