@@ -1,4 +1,10 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quantitative Risk Academy</title><style>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quantitative Risk Academy</title>
+<style>
 :root{--navy:#0b1733;--blue:#2f78c8;--text:#20242a;--muted:#667085;--line:#e7eaf0;--bg:#f7f9fc;--white:#fff;--shadow:0 18px 50px rgba(11,23,51,.09)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);line-height:1.65;background:#fff}a{text-decoration:none;color:inherit}.container{width:min(1120px,calc(100% - 40px));margin:auto}
 nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:800;color:var(--navy)}.brand span{color:var(--blue)}.links{display:flex;gap:26px;align-items:center;color:#4f5968;font-size:.95rem}.enroll{background:var(--navy);color:#fff;padding:10px 17px;border-radius:10px;font-weight:700}
@@ -9,14 +15,31 @@ section{padding:84px 0}.soft{background:var(--bg)}.kicker{color:var(--blue);font
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}.feature{border:1px solid var(--line);border-radius:16px;padding:24px;background:#fff}.feature h3{margin:0 0 8px;color:var(--navy)}.feature p{margin:0;color:var(--muted)}
 .course-hero{padding:88px 0 74px;background:linear-gradient(135deg,#07152e,#0d2c5b 62%,#17467f);color:#fff}.course-wrap{width:min(980px,calc(100% - 40px));margin:auto}.course-hero p{font-size:1.15rem;color:rgba(255,255,255,.82);max-width:800px}.course-sec{padding:64px 0;border-bottom:1px solid var(--line)}.course-sec h2{font-size:2.2rem}.course-sec h3{color:var(--navy);margin:26px 0 8px}.learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.learn-box{border:1px solid var(--line);border-radius:16px;padding:22px}.pricebox{border:1px solid var(--line);border-radius:18px;padding:30px;background:var(--bg)}.price{font-size:2.5rem;font-weight:800;color:var(--navy)}details{border-top:1px solid var(--line);padding:17px 0}summary{font-weight:700;color:var(--navy);cursor:pointer}
 footer{border-top:1px solid var(--line);padding:28px 0;color:#7c8591;font-size:.88rem}
-@media(max-width:900px){.hero-grid,.cards,.grid3,.learn-grid{grid-template-columns:1fr}.links a:not(.enroll){display:none}}@media(max-width:600px){.container,.course-wrap{width:min(100% - 28px,1120px)}}
-</style></head><body>
-<nav><div class="container nav"><a class="brand" href="#">Quantitative Risk <span>Academy</span></a><div class="links"><a href="#courses">Courses</a><a href="#method">How It Works</a><a href="#about">About</a><a class="enroll" href="#courses">Enroll</a></div></div></nav>
+.game-link{color:var(--blue);font-weight:700;white-space:nowrap}
+@media(max-width:900px){.hero-grid,.cards,.grid3,.learn-grid{grid-template-columns:1fr}.links a:not(.enroll){display:none}.links a.game-link{display:inline-flex}.nav{flex-wrap:wrap;gap:10px;padding:12px 0}.links{gap:16px}}
+@media(max-width:600px){.container,.course-wrap{width:min(100% - 28px,1120px)}}
+</style>
+</head>
+<body>
+<nav aria-label="Main navigation">
+  <div class="container nav">
+    <a class="brand" href="#">Quantitative Risk <span>Academy</span></a>
+    <div class="links">
+      <a href="#courses">Courses</a>
+      <a href="#method">How It Works</a>
+      <a href="#about">About</a>
+      <a class="game-link" href="climate-game.html">Play the Game</a>
+      <a class="enroll" href="#courses">Enroll</a>
+    </div>
+  </div>
+</nav>
 <header class="hero"><div class="container hero-grid"><div><div class="eyebrow">Professional quantitative training</div><h1>Learn risk by understanding it, applying it and building with it.</h1><p>Professional courses in quantitative risk management with practical exercises, regular follow-up and a final applied project reviewed individually.</p><div class="btns"><a class="btn btn-light" href="#courses">Explore the Courses →</a></div></div><div class="hero-card"><ul><li><span class="tick">✓</span>Structured quantitative content</li><li><span class="tick">✓</span>Practical exercises throughout the programme</li><li><span class="tick">✓</span>Regular follow-up of participant progress</li><li><span class="tick">✓</span>Final applied project instead of a standardised exam</li><li><span class="tick">✓</span>Individual review before Certificate of Completion</li></ul></div></div></header>
 <section id="courses"><div class="container"><div class="kicker">Courses</div><h2>Choose your programme.</h2><p class="lead">Each course combines academic foundations, practical implementation and project-based assessment.</p><div class="cards">
 <article class="card"><div class="banner"></div><div class="body"><h3>Quantitative Climate Risk Modelling</h3><p>Master the mathematical foundations behind climate risk modelling, Extreme Value Theory and systemic contagion.</p><div class="meta">Risk measures · EVT · Network science · Climate modelling · AI</div><div class="btns"><a class="btn btn-dark" href="https://buy.stripe.com/bJebJ08qcaAn0iUbIgbMQ00">Enroll Now</a><a class="btn btn-outline" href="climate-risk.html">View Course</a></div></div></article>
-<article class="card"><div class="banner alt"></div><div class="body"><h3>Risk Management in the Banking Sector</h3><p>Understand the foundations of risk management in the banking sector through a structured quantitative and regulatory framework.</p><div class="meta">Credit risk · Operational risk · Stress testing · ESG · Basel III</div><div class="btns"><a class="btn btn-dark" href="href="https://buy.stripe.com/cNi14m0XKcIv7Lm13CbMQ01">Enroll Now</a><a class="btn btn-outline" href="banking-risk.html">View Course</a></div></div></article>
+<article class="card"><div class="banner alt"></div><div class="body"><h3>Risk Management in the Banking Sector</h3><p>Understand the foundations of risk management in the banking sector through a structured quantitative and regulatory framework.</p><div class="meta">Credit risk · Operational risk · Stress testing · ESG · Basel III</div><div class="btns"><a class="btn btn-dark" href="https://buy.stripe.com/cNi14m0XKcIv7Lm13CbMQ01">Enroll Now</a><a class="btn btn-outline" href="banking-risk.html">View Course</a></div></div></article>
 </div></div></section>
 <section class="soft" id="method"><div class="container"><div class="kicker">How It Works</div><h2>More than exam preparation.</h2><p class="lead">The objective is not simply to memorise concepts. Participants are expected to understand the methodology, apply it independently and demonstrate that understanding through a practical project.</p><div class="grid3"><div class="feature"><h3>Regular Follow-up</h3><p>Participant progress is followed throughout the programme in a human-sized training format.</p></div><div class="feature"><h3>Applied Learning</h3><p>Theory is combined with exercises, coding and real quantitative applications.</p></div><div class="feature"><h3>Final Project Review</h3><p>The final assessment is an applied project reviewed individually before the certificate is issued.</p></div></div></div></section>
 <section id="about"><div class="container"><div class="kicker">About</div><h2>Built from research, teaching and professional practice.</h2><p class="lead">The programmes are designed to make advanced risk methods accessible while preserving the quantitative foundations required to understand how the models actually work.</p></div></section>
-<footer><div class="container">© 2026 Serine Guichoud. All rights reserved.</div></footer></body></html>
+<footer><div class="container">© 2026 Serine Guichoud. All rights reserved.</div></footer>
+</body>
+</html>
