@@ -25,16 +25,72 @@ header .stats{color:#536177}header .stats b{color:#0b1734}
 .choices button:hover:not(:disabled){background:#ffffff;color:#0b1734;border-color:#ffffff}
 .result{background:linear-gradient(140deg,#102c54,#17457d)}
 @media(max-height:530px){header{padding:2px 12px}}
+
+/* Clear question hierarchy and prominent, clickable answer buttons. */
+.intro h1{display:block;color:#ffe08a;font-size:clamp(28px,4.2vw,46px);font-weight:850;line-height:1.12;letter-spacing:-1px;margin:8px 0}
+.intro p{display:block;color:#ffffff;font-size:14px}.intro p strong{font-weight:800}
+.intro .tag{display:none}
+.choices{gap:10px;margin-top:12px}
+.choices button{min-height:48px;border:2px solid transparent;border-radius:12px;font-size:18px;font-weight:850;box-shadow:0 4px 0 #0004;transition:transform .15s,filter .15s}
+.choices #higher{background:#68d8ff;color:#081834;border-color:#b6edff}
+.choices #lower{background:#ffc36b;color:#081834;border-color:#ffe1b3}
+.choices #higher:hover:not(:disabled),.choices #lower:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-2px)}
+.choices button:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #0004}
+.choices button:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.choices button:disabled{opacity:.65;box-shadow:none}
+@media(max-width:600px){.intro h1{font-size:28px;margin:6px 0}.intro p{font-size:12px}.choices{gap:6px;margin-top:8px}.choices button{min-height:44px;font-size:15px;padding:6px 2px}.art{max-height:110px}.eyebrow{letter-spacing:.4px}}
+@media(max-height:650px){.intro h1{font-size:29px;margin:4px 0}.intro p{font-size:12px}.art{max-height:50px}.feedback{min-height:88px}}
+@media(max-height:530px){.intro h1{font-size:25px;margin:3px 0}.intro p{font-size:11px}.choices{margin-top:5px}.choices button{min-height:36px;font-size:15px}.feedback{min-height:78px}}
+@media(prefers-reduced-motion:reduce){.choices button{transition:none}}
+
+/* Equal illustration rows: answer buttons must never squeeze the right icon. */
+.card{display:grid;grid-template-rows:clamp(68px,12vh,112px) 1fr;align-content:stretch}
+.art{display:grid;flex:none;height:100%;min-height:0;max-height:none;padding:16px 0 4px}
+.symbol{font-size:clamp(36px,6.5vh,56px);line-height:1;display:block}
+.scenario{top:7px;font-size:7px}
+.content{padding:12px 16px;min-height:0;display:flex;flex-direction:column}
+.card h2{font-size:clamp(18px,2.3vw,24px);margin:5px 0;min-height:0}
+.description{font-size:12px;min-height:34px;margin-bottom:5px}
+.amount{font-size:32px;line-height:1.1;margin-top:auto}
+.choices{margin-top:9px}
+.choices button{min-height:44px;font-size:17px;padding:6px}
+.card:first-child .content:after{content:"";display:block;height:53px;flex-shrink:0}
+/* Reserve button space after the answer so both cards keep their geometry. */
+.choices[hidden]{display:flex!important;visibility:hidden;pointer-events:none}
+.feedback{min-height:100px}
+@media(max-width:600px){
+ .card{grid-template-rows:72px 1fr}
+ .content{padding:10px}.card h2{font-size:17px;min-height:38px}
+ .description{font-size:11px;min-height:46px}.symbol{font-size:42px}
+ .amount{font-size:28px}.choices{gap:5px}
+ .choices button{min-height:44px;font-size:14px;padding:5px 2px}
+}
+@media(max-height:650px){
+ .card{grid-template-rows:58px 1fr}.art{display:grid;padding:5px 0}
+ .symbol{font-size:38px}.scenario{display:none}
+ .intro h1{font-size:clamp(24px,3.8vw,32px)}
+ .content{padding:8px 12px}.description{min-height:28px}
+ .card h2{margin:4px 0}.amount{font-size:27px}.feedback{min-height:86px}
+}
+@media(max-height:530px){
+ .card{grid-template-rows:42px 1fr}.symbol{font-size:30px}
+ .art{padding:4px 0}.arena{min-height:215px}.content{padding:6px 12px}
+ .card h2{font-size:17px;min-height:0}.description{font-size:10px;min-height:14px;margin-bottom:3px}
+ .amount{font-size:23px}.choices{margin-top:5px}.choices button{min-height:32px;font-size:14px;padding:4px}
+ .card:first-child .content:after{height:37px}.feedback{min-height:72px}
+ .intro h1{font-size:23px;margin:2px 0}
+}
+
 </style>
 </head>
 <body>
 <main class="wrap">
  <header><div class="brand">climate<span>.</span>play</div><div class="stats"><div>STREAK<b id="score">0</b></div><div>BEST<b id="best">0</b></div></div></header>
- <section class="intro"><span class="tag">Higher or lower · Fictional demo</span><h1>Which disaster costs more?</h1><p>Are the losses on the right higher or lower?</p><div class="progress" id="progress"></div></section>
+ <section class="intro"><span class="tag">Higher or lower · Fictional demo</span><h1 id="question">Higher or lower losses?</h1><p>Look at the scenario on the right, then click <strong>Higher</strong> or <strong>Lower</strong>.</p><div class="progress" id="progress"></div></section>
  <section class="arena" id="arena" aria-label="Compare the scenarios">
   <article class="card"><div class="art" id="leftArt"><span class="scenario">FICTIONAL SCENARIO</span><span class="symbol" id="leftIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">The benchmark</div><h2 id="leftTitle"></h2><p class="description" id="leftDesc"></p><div class="amount" id="leftAmount"></div><div class="unit">USD billion · simulated losses</div></div></article>
   <div class="vs" aria-hidden="true">VS</div>
-  <article class="card"><div class="art" id="rightArt"><span class="scenario">FICTIONAL SCENARIO</span><span class="symbol" id="rightIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">Your guess</div><h2 id="rightTitle"></h2><p class="description" id="rightDesc"></p><div class="amount" id="rightAmount">?</div><div class="unit">USD billion · simulated losses</div><div class="choices" id="choices"><button id="higher" aria-label="The scenario on the right caused higher losses">↑ Higher</button><button id="lower" aria-label="The scenario on the right caused lower losses">↓ Lower</button></div></div></article>
+  <article class="card"><div class="art" id="rightArt"><span class="scenario">FICTIONAL SCENARIO</span><span class="symbol" id="rightIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">Your turn · Choose below ↓</div><h2 id="rightTitle"></h2><p class="description" id="rightDesc"></p><div class="amount" id="rightAmount">?</div><div class="unit">USD billion · simulated losses</div><div class="choices" id="choices"><button id="higher" aria-label="The scenario on the right caused higher losses">↑ Higher</button><button id="lower" aria-label="The scenario on the right caused lower losses">↓ Lower</button></div></div></article>
  </section>
  <section class="feedback" id="feedback" aria-live="polite"><strong id="verdict">Trust your intuition.</strong><p id="explanation">One correct answer = one point. One mistake ends your streak.</p><button class="primary" id="next" hidden>Next comparison →</button></section>
  <section class="result" id="result" hidden><span class="tag">Round complete</span><h2 id="resultTitle"></h2><div class="bigscore" id="finalScore"></div><p id="resultText"></p><div class="actions"><button class="primary" id="restart">Play again ↻</button><button class="secondary" id="share">Share my score</button></div><div class="sharestatus" id="shareStatus" role="status"></div><a class="course" href="https://serineguichoud.github.io/quantitative-risk-academy/climate-risk.html" target="_blank" rel="noopener noreferrer">Explore the climate risk course →</a></section>
@@ -150,10 +206,10 @@ try { best = Math.max(0, Math.min(events.length-1, Number(localStorage.getItem(k
 function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function paint(side,event){$(side+'Title').textContent=event.title;$(side+'Desc').textContent=event.desc;$(side+'Icon').textContent=event.icon;$(side+'Art').style.setProperty('--glow',event.glow);}
 function start(){deck=shuffle(events);position=1;score=0;finished=false;$('score').textContent=score;$('best').textContent=best;$('arena').hidden=false;$('feedback').hidden=false;$('result').hidden=true;$('shareStatus').textContent='';render();}
-function render(){locked=false;paint('left',deck[position-1]);paint('right',deck[position]);$('leftAmount').textContent=format(deck[position-1].loss);$('rightAmount').textContent='?';$('higher').disabled=false;$('lower').disabled=false;$('choices').hidden=false;$('next').hidden=true;$('verdict').textContent='Higher or lower than '+format(deck[position-1].loss)+' billion?';$('verdict').style.color='';$('explanation').textContent='Compare the scenarios and make your choice.';$('progress').textContent='COMPARISON '+position+' / '+(deck.length-1);}
+function render(){locked=false;paint('left',deck[position-1]);paint('right',deck[position]);$('leftAmount').textContent=format(deck[position-1].loss);$('rightAmount').textContent='?';$('higher').disabled=false;$('lower').disabled=false;$('choices').hidden=false;$('next').hidden=true;$('question').textContent='Higher or lower than $'+format(deck[position-1].loss)+' billion?';$('verdict').textContent='Can you beat your best streak?';$('verdict').style.color='';$('explanation').textContent='Compare the scenarios and make your choice.';$('progress').textContent='COMPARISON '+position+' / '+(deck.length-1);}
 function reveal(value){if(matchMedia('(prefers-reduced-motion: reduce)').matches){$('rightAmount').textContent=format(value);return Promise.resolve();}return new Promise(resolve=>{const start=performance.now();function frame(now){const t=Math.min((now-start)/650,1);$('rightAmount').textContent=format(value*(1-Math.pow(1-t,3)));if(t<1)requestAnimationFrame(frame);else resolve();}requestAnimationFrame(frame);});}
 async function guess(higher){if(locked||finished)return;locked=true;$('higher').disabled=true;$('lower').disabled=true;const previous=deck[position-1],current=deck[position];correct=higher?current.loss>previous.loss:current.loss<previous.loss;await reveal(current.loss);$('choices').hidden=true;if(correct){score++;$('score').textContent=score;if(score>best){best=score;$('best').textContent=best;try{localStorage.setItem(key,String(best));}catch{}}}$('verdict').textContent=correct?'You got it!':'Not quite — now you know.';$('verdict').style.color=correct?'var(--accent)':'var(--error)';$('explanation').textContent=current.why;$('next').textContent=correct&&position<deck.length-1?'Next comparison →':'See my result →';$('next').hidden=false;$('next').focus();}
-function finish(){finished=true;$('arena').hidden=true;$('feedback').hidden=true;$('result').hidden=false;$('progress').textContent='';$('resultTitle').textContent=score===deck.length-1?'A perfect streak!':score>=5?'An impressive streak!':'Ready for another try?';$('finalScore').textContent=score+' / '+(deck.length-1);$('resultText').textContent=score+' correct answer'+(score===1?'':'s')+' in a row. Personal best: '+best+'.';$('restart').focus();}
+function finish(){finished=true;$('question').textContent='Your climate challenge result';$('arena').hidden=true;$('feedback').hidden=true;$('result').hidden=false;$('progress').textContent='';$('resultTitle').textContent=score===deck.length-1?'A perfect streak!':score>=5?'An impressive streak!':'Ready for another try?';$('finalScore').textContent=score+' / '+(deck.length-1);$('resultText').textContent=score+' correct answer'+(score===1?'':'s')+' in a row. Personal best: '+best+'.';$('restart').focus();}
 $('higher').onclick=()=>guess(true);$('lower').onclick=()=>guess(false);$('next').onclick=()=>{if(!locked)return;if(correct&&position<deck.length-1){position++;render();$('higher').focus();}else finish();};$('restart').onclick=start;
 $('share').onclick=async()=>{const text='🌍 Climate Play — '+score+'/'+(deck.length-1)+'! Can you beat my score?\nHigher or Lower · fictional climate scenarios.';try{await navigator.clipboard.writeText(text);$('shareStatus').textContent='Score copied! Paste it into your message.';}catch{window.prompt('Copy your score:',text);}};
 $('aboutButton').onclick=()=>$('about').showModal();
