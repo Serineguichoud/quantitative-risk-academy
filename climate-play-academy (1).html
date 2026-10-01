@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Climate | Higher or Lower</title>
+<style>
+/* Quantitative Risk Academy palette, sampled from the supplied course screenshot. */
+:root{color-scheme:dark;--bg:#081834;--panel:#102c54;--ink:#ffffff;--muted:#c7d6ea;--accent:#9bc9ff;--brand:#2d7bd6;--border:#41638d;--error:#ffb2a5}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(120deg,#081834 0%,#103466 60%,#17457d 100%);background-attachment:fixed;color:var(--ink);font:15px/1.4 system-ui,sans-serif}button,a{touch-action:manipulation}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{cursor:default;opacity:.45}[hidden]{display:none!important}
+.wrap{width:min(1080px,100%);height:100vh;height:100dvh;margin:auto;padding:clamp(10px,2vh,20px) 24px;display:flex;flex-direction:column;gap:clamp(6px,1.3vh,12px)}
+header{display:flex;justify-content:space-between;align-items:center;flex-shrink:0}.brand{font-weight:800;letter-spacing:-1px;font-size:24px}.brand span{color:var(--accent)}.stats{display:flex;gap:22px;font-size:10px;letter-spacing:1px;color:var(--muted)}.stats b{display:block;color:var(--ink);font-size:22px;text-align:center;line-height:1.1}
+.intro{text-align:center;flex-shrink:0}.tag{display:inline-block;border:1px solid var(--border);border-radius:30px;padding:3px 10px;color:var(--accent);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}h1{font-size:clamp(25px,4vw,42px);line-height:1.1;letter-spacing:-1.5px;margin:10px 0 6px}.intro p{margin:0;color:var(--muted);font-size:14px}.progress{margin-top:7px;font-size:10px;letter-spacing:1px;color:var(--muted);min-height:14px}
+.arena{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1;min-height:260px;max-height:520px}.card{border:1px solid var(--border);border-radius:18px;background:linear-gradient(155deg,#173b69,#0c2448);overflow:hidden;display:flex;flex-direction:column;min-width:0}.art{position:relative;min-height:50px;flex:1;max-height:180px;background:radial-gradient(ellipse at 80% 15%,#2d7bd655,transparent 65%),linear-gradient(155deg,var(--panel),var(--bg));display:grid;place-items:center;overflow:hidden}.art:after{content:"";position:absolute;inset:65% -10% -30%;background:#08183455;transform:rotate(-9deg);border-radius:45%}.symbol{font-size:clamp(32px,8vh,68px);filter:drop-shadow(0 5px 12px #0003);z-index:1}.scenario{position:absolute;top:10px;left:14px;font-size:8px;letter-spacing:1.4px;z-index:1;color:var(--muted)}.content{padding:clamp(12px,2vh,20px);display:flex;flex-direction:column;flex-shrink:0}.eyebrow{font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px}h2{font-size:clamp(19px,2.6vw,26px);line-height:1.12;margin:7px 0}.description{color:var(--muted);font-size:13px;min-height:36px;margin:0 0 6px}.amount{font-size:clamp(28px,4.5vh,40px);font-weight:800;letter-spacing:-1px;color:var(--accent);line-height:1.2}.unit{font-size:10px;color:var(--muted)}.vs{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:10px;font-weight:900;border:4px solid var(--bg);z-index:2}
+.choices{display:flex;gap:8px;margin-top:10px}.choices button{flex:1;min-height:42px;padding:8px;border-radius:10px;border:1px solid var(--accent);color:var(--accent);background:transparent;font-weight:750}.choices button:hover:not(:disabled){background:#ffffff;color:#0b1734}.feedback{text-align:center;flex-shrink:0;min-height:116px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}.feedback strong{font-size:18px}.feedback p{color:var(--muted);max-width:760px;margin:0;font-size:13px}.primary,.secondary{min-height:42px;border-radius:10px;padding:9px 22px;font-weight:750}.primary{border:0;background:#ffffff;color:#0b1734;box-shadow:0 4px 16px #08183422}.secondary{border:1px solid var(--border);background:transparent;color:var(--ink)}.result{flex:1;min-height:260px;text-align:center;border:1px solid var(--border);background:var(--panel);padding:18px;border-radius:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px}.result h2{font-size:28px;margin:0}.bigscore{font-size:clamp(45px,10vh,80px);font-weight:900;line-height:1.1;color:var(--accent)}.result p{color:var(--muted);margin:0}.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}.course{color:var(--accent);text-underline-offset:4px;font-size:13px}.sharestatus{font-size:12px;min-height:16px}footer{margin-top:auto;border-top:1px solid var(--border);padding-top:8px;color:var(--muted);font-size:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0}.textButton{color:var(--ink);background:none;border:0;text-decoration:underline;padding:4px;font-size:11px}dialog{max-width:min(500px,90vw);max-height:85dvh;background:var(--panel);color:var(--ink);border:1px solid var(--border);border-radius:18px;padding:24px}dialog::backdrop{background:#0009}dialog p{color:var(--muted);font-size:14px}
+@media(max-width:600px){.wrap{padding:10px 12px;gap:7px}.brand{font-size:21px}.stats{gap:14px}.stats b{font-size:20px}h1{font-size:27px;margin:8px 0 5px}.intro p{font-size:12px}.tag{font-size:8px}.arena{gap:10px;min-height:265px}.content{padding:12px}.eyebrow{font-size:8px;letter-spacing:1px}.card h2{font-size:18px;min-height:40px}.description{font-size:11px;min-height:46px}.scenario{font-size:7px;left:10px}.amount{font-size:30px}.unit{font-size:9px}.choices{gap:5px}.choices button{padding:5px 2px;font-size:12px}.vs{width:30px;height:30px;font-size:8px}.feedback{min-height:118px;gap:5px}.feedback strong{font-size:16px}.feedback p{font-size:11px}.credit{display:none}footer{font-size:9px}.result p{font-size:13px}.result h2{font-size:24px}.actions button{font-size:13px}}
+@media(max-height:650px){.wrap{gap:5px;padding-top:8px;padding-bottom:8px}.intro .tag{display:none}h1{font-size:27px;margin:4px 0}.progress{margin-top:3px}.art{max-height:65px}.symbol{font-size:34px}.scenario{display:none}.content{padding:10px 14px}.feedback{min-height:98px;gap:4px}.feedback p{font-size:11px}.feedback strong{font-size:16px}.primary,.secondary{min-height:36px;padding:7px 18px}footer{padding-top:4px}.result{gap:7px}}
+@media(max-height:530px){.wrap{padding:7px 16px;gap:4px}header{height:30px}.brand{font-size:20px}.stats b{font-size:17px}.stats{display:flex;font-size:8px;gap:14px}.intro h1{font-size:23px;display:inline;margin-right:12px}.intro p{display:inline;font-size:11px}.progress{font-size:9px;min-height:12px}.art{display:none}.arena{min-height:172px}.content{padding:8px 14px}.card h2{font-size:19px;min-height:0;margin:4px 0}.description{font-size:11px;min-height:26px;margin-bottom:3px}.amount{font-size:25px}.choices{margin-top:5px}.choices button{min-height:32px;padding:5px}.feedback{min-height:83px}.feedback strong{font-size:14px}.feedback p{font-size:11px}.result{min-height:170px;gap:4px;padding:10px}.result>.tag{display:none}.result h2{font-size:21px}.bigscore{font-size:36px}.result p{font-size:12px}footer{font-size:9px}.course{font-size:12px}}
+@media(prefers-reduced-motion:no-preference){.card{animation:appear .3s ease-out}@keyframes appear{from{opacity:.4;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}}
+
+header{background:#f5f6f8;color:#0b1734;border-radius:12px;padding:5px 14px}
+header .brand{color:#0b1734}header .brand span{color:var(--brand)}
+header .stats{color:#536177}header .stats b{color:#0b1734}
+.amount{color:#ffffff}.choices button{color:#ffffff;border-color:#9bc9ff;background:#ffffff08}
+.choices button:hover:not(:disabled){background:#ffffff;color:#0b1734;border-color:#ffffff}
+.result{background:linear-gradient(140deg,#102c54,#17457d)}
+@media(max-height:530px){header{padding:2px 12px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+ <header><div class="brand">climate<span>.</span>play</div><div class="stats"><div>STREAK<b id="score">0</b></div><div>BEST<b id="best">0</b></div></div></header>
+ <section class="intro"><span class="tag">Higher or lower · Fictional demo</span><h1>Which disaster costs more?</h1><p>Are the losses on the right higher or lower?</p><div class="progress" id="progress"></div></section>
+ <section class="arena" id="arena" aria-label="Compare the scenarios">
+  <article class="card"><div class="art" id="leftArt"><span class="scenario">FICTIONAL SCENARIO</span><span class="symbol" id="leftIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">The benchmark</div><h2 id="leftTitle"></h2><p class="description" id="leftDesc"></p><div class="amount" id="leftAmount"></div><div class="unit">USD billion · simulated losses</div></div></article>
+  <div class="vs" aria-hidden="true">VS</div>
+  <article class="card"><div class="art" id="rightArt"><span class="scenario">FICTIONAL SCENARIO</span><span class="symbol" id="rightIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">Your guess</div><h2 id="rightTitle"></h2><p class="description" id="rightDesc"></p><div class="amount" id="rightAmount">?</div><div class="unit">USD billion · simulated losses</div><div class="choices" id="choices"><button id="higher" aria-label="The scenario on the right caused higher losses">↑ Higher</button><button id="lower" aria-label="The scenario on the right caused lower losses">↓ Lower</button></div></div></article>
+ </section>
+ <section class="feedback" id="feedback" aria-live="polite"><strong id="verdict">Trust your intuition.</strong><p id="explanation">One correct answer = one point. One mistake ends your streak.</p><button class="primary" id="next" hidden>Next comparison →</button></section>
+ <section class="result" id="result" hidden><span class="tag">Round complete</span><h2 id="resultTitle"></h2><div class="bigscore" id="finalScore"></div><p id="resultText"></p><div class="actions"><button class="primary" id="restart">Play again ↻</button><button class="secondary" id="share">Share my score</button></div><div class="sharestatus" id="shareStatus" role="status"></div><a class="course" href="https://serineguichoud.github.io/quantitative-risk-academy/climate-risk.html" target="_blank" rel="noopener noreferrer">Explore the climate risk course →</a></section>
+ <footer><span>Fictional events &amp; losses · Demonstration only</span><button id="aboutButton" class="textButton">About</button><span class="credit">Dr. Serine Guichoud</span></footer>
+<dialog id="about"><h2>About this demo</h2><p>12 fictional scenarios. Up to 11 comparisons. One mistake ends the game.</p><p>All losses are illustrative total economic losses in the same fictional dollar basis. They are not estimates of real disasters. The explanations describe possible mechanisms, not evidence for the invented amounts.</p><p>Your best score stays in this browser when local storage is available.</p><form method="dialog"><button class="primary">Back to the game</button></form></dialog>
+</main>
+<script>
+// Fictional demonstration data. Replace with sourced, comparable losses
+// before presenting this as a factual quiz.
+const events = [
+  {
+    "title": "The flooded city",
+    "desc": "Flood · A metropolis and its subway brought to a halt.",
+    "icon": "🌊",
+    "loss": 24,
+    "glow": "#2d7bd6",
+    "why": "Building damage combines with transport disruptions and business interruptions in this fictional scenario."
+  },
+  {
+    "title": "The lost harvest",
+    "desc": "Drought · A farming region loses a growing season.",
+    "icon": "🌾",
+    "loss": 7,
+    "glow": "#2d7bd6",
+    "why": "Lower harvests affect farmers and the businesses that process and transport their products."
+  },
+  {
+    "title": "The silent port",
+    "desc": "Storm · A major commercial port shuts down.",
+    "icon": "🚢",
+    "loss": 18,
+    "glow": "#2d7bd6",
+    "why": "Delayed shipments can interrupt production at customers far beyond the port itself."
+  },
+  {
+    "title": "The burning hills",
+    "desc": "Wildfire · A sparsely developed area is evacuated.",
+    "icon": "🔥",
+    "loss": 3,
+    "glow": "#2d7bd6",
+    "why": "Visible destruction does not always mean the highest financial loss. Human and ecological impacts cannot be reduced to dollars."
+  },
+  {
+    "title": "The critical factory",
+    "desc": "Flood · A supplier of essential components goes offline.",
+    "icon": "🏭",
+    "loss": 32,
+    "glow": "#2d7bd6",
+    "why": "A component that is hard to replace can halt several production chains, creating substantial indirect losses."
+  },
+  {
+    "title": "The relentless heat",
+    "desc": "Heatwave · A large city endures weeks of extreme heat.",
+    "icon": "☀️",
+    "loss": 11,
+    "glow": "#2d7bd6",
+    "why": "Heat can lower productivity and raise energy demand, even without spectacular physical destruction."
+  },
+  {
+    "title": "The shattered coast",
+    "desc": "Cyclone · A densely built coastline takes a direct hit.",
+    "icon": "🌀",
+    "loss": 65,
+    "glow": "#2d7bd6",
+    "why": "A concentration of homes, businesses and infrastructure increases the value of exposed assets."
+  },
+  {
+    "title": "The isolated valley",
+    "desc": "Extreme rain · The only access road is cut off.",
+    "icon": "⛰️",
+    "loss": 1.5,
+    "glow": "#2d7bd6",
+    "why": "Even an inexpensive road can be essential to the communities and businesses that depend on it."
+  },
+  {
+    "title": "The blackout",
+    "desc": "Storm · Power cuts spread across several cities.",
+    "icon": "⚡",
+    "loss": 15,
+    "glow": "#2d7bd6",
+    "why": "Electricity outages interrupt many services and economic activities at the same time."
+  },
+  {
+    "title": "The empty resort",
+    "desc": "Coastal flooding · A seaside resort closes its doors.",
+    "icon": "🏖️",
+    "loss": 5,
+    "glow": "#2d7bd6",
+    "why": "Repair costs are compounded by lost revenue while hotels and other businesses remain closed."
+  },
+  {
+    "title": "The shrinking river",
+    "desc": "Drought · Freight traffic on a major river slows down.",
+    "icon": "🚤",
+    "loss": 9,
+    "glow": "#2d7bd6",
+    "why": "Low water levels limit cargo loads and can increase transport and supply costs."
+  },
+  {
+    "title": "The industrial flood",
+    "desc": "Flood · Several manufacturing districts are hit together.",
+    "icon": "🌧️",
+    "loss": 42,
+    "glow": "#2d7bd6",
+    "why": "When multiple suppliers are hit at once, alternative sources of supply may also be unavailable."
+  }
+];
+const $ = id => document.getElementById(id);
+const format = n => new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(n);
+const key = 'climate-play-demo-best-v1';
+let deck, position, score, best = 0, locked, correct, finished;
+try { best = Math.max(0, Math.min(events.length-1, Number(localStorage.getItem(key)) || 0)); } catch {}
+function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function paint(side,event){$(side+'Title').textContent=event.title;$(side+'Desc').textContent=event.desc;$(side+'Icon').textContent=event.icon;$(side+'Art').style.setProperty('--glow',event.glow);}
+function start(){deck=shuffle(events);position=1;score=0;finished=false;$('score').textContent=score;$('best').textContent=best;$('arena').hidden=false;$('feedback').hidden=false;$('result').hidden=true;$('shareStatus').textContent='';render();}
+function render(){locked=false;paint('left',deck[position-1]);paint('right',deck[position]);$('leftAmount').textContent=format(deck[position-1].loss);$('rightAmount').textContent='?';$('higher').disabled=false;$('lower').disabled=false;$('choices').hidden=false;$('next').hidden=true;$('verdict').textContent='Higher or lower than '+format(deck[position-1].loss)+' billion?';$('verdict').style.color='';$('explanation').textContent='Compare the scenarios and make your choice.';$('progress').textContent='COMPARISON '+position+' / '+(deck.length-1);}
+function reveal(value){if(matchMedia('(prefers-reduced-motion: reduce)').matches){$('rightAmount').textContent=format(value);return Promise.resolve();}return new Promise(resolve=>{const start=performance.now();function frame(now){const t=Math.min((now-start)/650,1);$('rightAmount').textContent=format(value*(1-Math.pow(1-t,3)));if(t<1)requestAnimationFrame(frame);else resolve();}requestAnimationFrame(frame);});}
+async function guess(higher){if(locked||finished)return;locked=true;$('higher').disabled=true;$('lower').disabled=true;const previous=deck[position-1],current=deck[position];correct=higher?current.loss>previous.loss:current.loss<previous.loss;await reveal(current.loss);$('choices').hidden=true;if(correct){score++;$('score').textContent=score;if(score>best){best=score;$('best').textContent=best;try{localStorage.setItem(key,String(best));}catch{}}}$('verdict').textContent=correct?'You got it!':'Not quite — now you know.';$('verdict').style.color=correct?'var(--accent)':'var(--error)';$('explanation').textContent=current.why;$('next').textContent=correct&&position<deck.length-1?'Next comparison →':'See my result →';$('next').hidden=false;$('next').focus();}
+function finish(){finished=true;$('arena').hidden=true;$('feedback').hidden=true;$('result').hidden=false;$('progress').textContent='';$('resultTitle').textContent=score===deck.length-1?'A perfect streak!':score>=5?'An impressive streak!':'Ready for another try?';$('finalScore').textContent=score+' / '+(deck.length-1);$('resultText').textContent=score+' correct answer'+(score===1?'':'s')+' in a row. Personal best: '+best+'.';$('restart').focus();}
+$('higher').onclick=()=>guess(true);$('lower').onclick=()=>guess(false);$('next').onclick=()=>{if(!locked)return;if(correct&&position<deck.length-1){position++;render();$('higher').focus();}else finish();};$('restart').onclick=start;
+$('share').onclick=async()=>{const text='🌍 Climate Play — '+score+'/'+(deck.length-1)+'! Can you beat my score?\nHigher or Lower · fictional climate scenarios.';try{await navigator.clipboard.writeText(text);$('shareStatus').textContent='Score copied! Paste it into your message.';}catch{window.prompt('Copy your score:',text);}};
+$('aboutButton').onclick=()=>$('about').showModal();
+start();
+</script>
+</body>
+</html>
