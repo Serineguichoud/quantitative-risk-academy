@@ -1,219 +1,413 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Climate | Higher or Lower</title>
+
 <style>
+
 /* Quantitative Risk Academy palette, sampled from the supplied course screenshot. */
+
 :root{color-scheme:dark;--bg:#081834;--panel:#102c54;--ink:#ffffff;--muted:#c7d6ea;--accent:#9bc9ff;--brand:#2d7bd6;--border:#41638d;--error:#ffb2a5}
+
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(120deg,#081834 0%,#103466 60%,#17457d 100%);background-attachment:fixed;color:var(--ink);font:15px/1.4 system-ui,sans-serif}button,a{touch-action:manipulation}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{cursor:default;opacity:.45}[hidden]{display:none!important}
+
 .wrap{width:min(1080px,100%);height:100vh;height:100dvh;margin:auto;padding:clamp(10px,2vh,20px) 24px;display:flex;flex-direction:column;gap:clamp(6px,1.3vh,12px)}
+
 header{display:flex;justify-content:space-between;align-items:center;flex-shrink:0}.brand{font-weight:800;letter-spacing:-1px;font-size:24px}.brand span{color:var(--accent)}.stats{display:flex;gap:22px;font-size:10px;letter-spacing:1px;color:var(--muted)}.stats b{display:block;color:var(--ink);font-size:22px;text-align:center;line-height:1.1}
+
 .intro{text-align:center;flex-shrink:0}.tag{display:inline-block;border:1px solid var(--border);border-radius:30px;padding:3px 10px;color:var(--accent);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}h1{font-size:clamp(25px,4vw,42px);line-height:1.1;letter-spacing:-1.5px;margin:10px 0 6px}.intro p{margin:0;color:var(--muted);font-size:14px}.progress{margin-top:7px;font-size:10px;letter-spacing:1px;color:var(--muted);min-height:14px}
+
 .arena{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1;min-height:260px;max-height:520px}.card{border:1px solid var(--border);border-radius:18px;background:linear-gradient(155deg,#173b69,#0c2448);overflow:hidden;display:flex;flex-direction:column;min-width:0}.art{position:relative;min-height:50px;flex:1;max-height:180px;background:radial-gradient(ellipse at 80% 15%,#2d7bd655,transparent 65%),linear-gradient(155deg,var(--panel),var(--bg));display:grid;place-items:center;overflow:hidden}.art:after{content:"";position:absolute;inset:65% -10% -30%;background:#08183455;transform:rotate(-9deg);border-radius:45%}.symbol{font-size:clamp(32px,8vh,68px);filter:drop-shadow(0 5px 12px #0003);z-index:1}.scenario{position:absolute;top:10px;left:14px;font-size:8px;letter-spacing:1.4px;z-index:1;color:var(--muted)}.content{padding:clamp(12px,2vh,20px);display:flex;flex-direction:column;flex-shrink:0}.eyebrow{font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px}h2{font-size:clamp(19px,2.6vw,26px);line-height:1.12;margin:7px 0}.description{color:var(--muted);font-size:13px;min-height:36px;margin:0 0 6px}.amount{font-size:clamp(28px,4.5vh,40px);font-weight:800;letter-spacing:-1px;color:var(--accent);line-height:1.2}.unit{font-size:10px;color:var(--muted)}.vs{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:10px;font-weight:900;border:4px solid var(--bg);z-index:2}
+
 .choices{display:flex;gap:8px;margin-top:10px}.choices button{flex:1;min-height:42px;padding:8px;border-radius:10px;border:1px solid var(--accent);color:var(--accent);background:transparent;font-weight:750}.choices button:hover:not(:disabled){background:#ffffff;color:#0b1734}.feedback{text-align:center;flex-shrink:0;min-height:116px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}.feedback strong{font-size:18px}.feedback p{color:var(--muted);max-width:760px;margin:0;font-size:13px}.primary,.secondary{min-height:42px;border-radius:10px;padding:9px 22px;font-weight:750}.primary{border:0;background:#ffffff;color:#0b1734;box-shadow:0 4px 16px #08183422}.secondary{border:1px solid var(--border);background:transparent;color:var(--ink)}.result{flex:1;min-height:260px;text-align:center;border:1px solid var(--border);background:var(--panel);padding:18px;border-radius:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px}.result h2{font-size:28px;margin:0}.bigscore{font-size:clamp(45px,10vh,80px);font-weight:900;line-height:1.1;color:var(--accent)}.result p{color:var(--muted);margin:0}.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}.course{color:var(--accent);text-underline-offset:4px;font-size:13px}.sharestatus{font-size:12px;min-height:16px}footer{margin-top:auto;border-top:1px solid var(--border);padding-top:8px;color:var(--muted);font-size:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0}.textButton{color:var(--ink);background:none;border:0;text-decoration:underline;padding:4px;font-size:11px}dialog{max-width:min(500px,90vw);max-height:85dvh;background:var(--panel);color:var(--ink);border:1px solid var(--border);border-radius:18px;padding:24px}dialog::backdrop{background:#0009}dialog p{color:var(--muted);font-size:14px}
+
 @media(max-width:600px){.wrap{padding:10px 12px;gap:7px}.brand{font-size:21px}.stats{gap:14px}.stats b{font-size:20px}h1{font-size:27px;margin:8px 0 5px}.intro p{font-size:12px}.tag{font-size:8px}.arena{gap:10px;min-height:265px}.content{padding:12px}.eyebrow{font-size:8px;letter-spacing:1px}.card h2{font-size:18px;min-height:40px}.description{font-size:11px;min-height:46px}.scenario{font-size:7px;left:10px}.amount{font-size:30px}.unit{font-size:9px}.choices{gap:5px}.choices button{padding:5px 2px;font-size:12px}.vs{width:30px;height:30px;font-size:8px}.feedback{min-height:118px;gap:5px}.feedback strong{font-size:16px}.feedback p{font-size:11px}.credit{display:none}footer{font-size:9px}.result p{font-size:13px}.result h2{font-size:24px}.actions button{font-size:13px}}
+
 @media(max-height:650px){.wrap{gap:5px;padding-top:8px;padding-bottom:8px}.intro .tag{display:none}h1{font-size:27px;margin:4px 0}.progress{margin-top:3px}.art{max-height:65px}.symbol{font-size:34px}.scenario{display:none}.content{padding:10px 14px}.feedback{min-height:98px;gap:4px}.feedback p{font-size:11px}.feedback strong{font-size:16px}.primary,.secondary{min-height:36px;padding:7px 18px}footer{padding-top:4px}.result{gap:7px}}
+
 @media(max-height:530px){.wrap{padding:7px 16px;gap:4px}header{height:30px}.brand{font-size:20px}.stats b{font-size:17px}.stats{display:flex;font-size:8px;gap:14px}.intro h1{font-size:23px;display:inline;margin-right:12px}.intro p{display:inline;font-size:11px}.progress{font-size:9px;min-height:12px}.art{display:none}.arena{min-height:172px}.content{padding:8px 14px}.card h2{font-size:19px;min-height:0;margin:4px 0}.description{font-size:11px;min-height:26px;margin-bottom:3px}.amount{font-size:25px}.choices{margin-top:5px}.choices button{min-height:32px;padding:5px}.feedback{min-height:83px}.feedback strong{font-size:14px}.feedback p{font-size:11px}.result{min-height:170px;gap:4px;padding:10px}.result>.tag{display:none}.result h2{font-size:21px}.bigscore{font-size:36px}.result p{font-size:12px}footer{font-size:9px}.course{font-size:12px}}
+
 @media(prefers-reduced-motion:no-preference){.card{animation:appear .3s ease-out}@keyframes appear{from{opacity:.4;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}}
 
+
+
 header{background:#f5f6f8;color:#0b1734;border-radius:12px;padding:5px 14px}
+
 header .brand{color:#0b1734}header .brand span{color:var(--brand)}
+
 header .stats{color:#536177}header .stats b{color:#0b1734}
+
 .amount{color:#ffffff}.choices button{color:#ffffff;border-color:#9bc9ff;background:#ffffff08}
+
 .choices button:hover:not(:disabled){background:#ffffff;color:#0b1734;border-color:#ffffff}
+
 .result{background:linear-gradient(140deg,#102c54,#17457d)}
+
 @media(max-height:530px){header{padding:2px 12px}}
 
+
+
 /* Clear question hierarchy and prominent, clickable answer buttons. */
+
 .intro h1{display:block;color:#ffe08a;font-size:clamp(28px,4.2vw,46px);font-weight:850;line-height:1.12;letter-spacing:-1px;margin:8px 0}
+
 .intro p{display:block;color:#ffffff;font-size:14px}.intro p strong{font-weight:800}
+
 .intro .tag{display:none}
+
 .choices{gap:10px;margin-top:12px}
+
 .choices button{min-height:48px;border:2px solid transparent;border-radius:12px;font-size:18px;font-weight:850;box-shadow:0 4px 0 #0004;transition:transform .15s,filter .15s}
+
 .choices #higher{background:#68d8ff;color:#081834;border-color:#b6edff}
+
 .choices #lower{background:#ffc36b;color:#081834;border-color:#ffe1b3}
+
 .choices #higher:hover:not(:disabled),.choices #lower:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-2px)}
+
 .choices button:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #0004}
+
 .choices button:focus-visible{outline:3px solid #fff;outline-offset:4px}
+
 .choices button:disabled{opacity:.65;box-shadow:none}
+
 @media(max-width:600px){.intro h1{font-size:28px;margin:6px 0}.intro p{font-size:12px}.choices{gap:6px;margin-top:8px}.choices button{min-height:44px;font-size:15px;padding:6px 2px}.art{max-height:110px}.eyebrow{letter-spacing:.4px}}
+
 @media(max-height:650px){.intro h1{font-size:29px;margin:4px 0}.intro p{font-size:12px}.art{max-height:50px}.feedback{min-height:88px}}
+
 @media(max-height:530px){.intro h1{font-size:25px;margin:3px 0}.intro p{font-size:11px}.choices{margin-top:5px}.choices button{min-height:36px;font-size:15px}.feedback{min-height:78px}}
+
 @media(prefers-reduced-motion:reduce){.choices button{transition:none}}
 
+
+
 /* Equal illustration rows: answer buttons must never squeeze the right icon. */
+
 .card{display:grid;grid-template-rows:clamp(68px,12vh,112px) 1fr;align-content:stretch}
+
 .art{display:grid;flex:none;height:100%;min-height:0;max-height:none;padding:16px 0 4px}
+
 .symbol{font-size:clamp(36px,6.5vh,56px);line-height:1;display:block}
+
 .scenario{top:7px;font-size:7px}
+
 .content{padding:12px 16px;min-height:0;display:flex;flex-direction:column}
+
 .card h2{font-size:clamp(18px,2.3vw,24px);margin:5px 0;min-height:0}
+
 .description{font-size:12px;min-height:34px;margin-bottom:5px}
+
 .amount{font-size:32px;line-height:1.1;margin-top:auto}
+
 .choices{margin-top:9px}
+
 .choices button{min-height:44px;font-size:17px;padding:6px}
+
 .card:first-child .content:after{content:"";display:block;height:53px;flex-shrink:0}
+
 /* Reserve button space after the answer so both cards keep their geometry. */
+
 .choices[hidden]{display:flex!important;visibility:hidden;pointer-events:none}
+
 .feedback{min-height:100px}
+
 @media(max-width:600px){
+
  .card{grid-template-rows:72px 1fr}
+
  .content{padding:10px}.card h2{font-size:17px;min-height:38px}
+
  .description{font-size:11px;min-height:46px}.symbol{font-size:42px}
+
  .amount{font-size:28px}.choices{gap:5px}
+
  .choices button{min-height:44px;font-size:14px;padding:5px 2px}
-}
-@media(max-height:650px){
- .card{grid-template-rows:58px 1fr}.art{display:grid;padding:5px 0}
- .symbol{font-size:38px}.scenario{display:none}
- .intro h1{font-size:clamp(24px,3.8vw,32px)}
- .content{padding:8px 12px}.description{min-height:28px}
- .card h2{margin:4px 0}.amount{font-size:27px}.feedback{min-height:86px}
-}
-@media(max-height:530px){
- .card{grid-template-rows:42px 1fr}.symbol{font-size:30px}
- .art{padding:4px 0}.arena{min-height:215px}.content{padding:6px 12px}
- .card h2{font-size:17px;min-height:0}.description{font-size:10px;min-height:14px;margin-bottom:3px}
- .amount{font-size:23px}.choices{margin-top:5px}.choices button{min-height:32px;font-size:14px;padding:4px}
- .card:first-child .content:after{height:37px}.feedback{min-height:72px}
- .intro h1{font-size:23px;margin:2px 0}
+
 }
 
+@media(max-height:650px){
+
+ .card{grid-template-rows:58px 1fr}.art{display:grid;padding:5px 0}
+
+ .symbol{font-size:38px}.scenario{display:none}
+
+ .intro h1{font-size:clamp(24px,3.8vw,32px)}
+
+ .content{padding:8px 12px}.description{min-height:28px}
+
+ .card h2{margin:4px 0}.amount{font-size:27px}.feedback{min-height:86px}
+
+}
+
+@media(max-height:530px){
+
+ .card{grid-template-rows:42px 1fr}.symbol{font-size:30px}
+
+ .art{padding:4px 0}.arena{min-height:215px}.content{padding:6px 12px}
+
+ .card h2{font-size:17px;min-height:0}.description{font-size:10px;min-height:14px;margin-bottom:3px}
+
+ .amount{font-size:23px}.choices{margin-top:5px}.choices button{min-height:32px;font-size:14px;padding:4px}
+
+ .card:first-child .content:after{height:37px}.feedback{min-height:72px}
+
+ .intro h1{font-size:23px;margin:2px 0}
+
+}
+
+
+
+
+
+.feedbackActions{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+
+.feedback{min-height:116px}.feedback p{font-size:12px;max-width:820px}
+
+.card h2{font-size:clamp(16px,2.1vw,23px);overflow-wrap:anywhere}
+
+.card .description{font-size:12px;min-height:34px}
+
+.scenario{font-size:8px}.intro h1{font-size:clamp(25px,3.8vw,40px)}
+
+dialog{width:min(780px,94vw);max-width:94vw}dialog a{color:#b7d8ff}dialog form{margin-top:18px}dialog details{margin:16px 0}dialog summary{cursor:pointer;font-weight:700;color:#ffe08a}
+
+.bankRow{border-top:1px solid var(--border);padding:10px 0;font-size:13px}.bankRow p{margin:4px 0;font-size:12px}.record{border-top:1px solid var(--border);padding:10px 0}.record p{margin:5px 0}
+
+@media(max-width:600px){.card h2{font-size:16px;min-height:36px}.card .description{font-size:11px}.feedback p{font-size:11px}.feedbackActions{gap:5px}.intro h1{font-size:26px}.feedback{min-height:125px}}
+
+@media(max-height:650px){.feedback{min-height:105px}.feedback p{font-size:11px}.intro h1{font-size:28px}}
+
+@media(max-height:530px){.feedback{min-height:94px}.intro h1{font-size:23px}.card h2{font-size:16px}.card .description{min-height:28px}}
+
+.linkedin{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#0a66c2;border-color:#66b2ff;color:#fff;font-size:13px}.linkedin:hover{background:#004182}.linkedin:focus-visible{outline:3px solid #ffe08a;outline-offset:3px}
+
+
+.account{display:flex;align-items:center;gap:8px;font-size:11px}.account span{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.account button{color:#102c54;font-size:11px;border:0;background:none;text-decoration:underline;cursor:pointer}.login{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;max-width:620px;margin:auto}.login p{color:var(--muted);margin:0}.login small{color:var(--muted);font-size:12px}.sync{font-size:11px;color:var(--muted);text-align:center;min-height:16px}.sync button{font-size:11px}.wrap{min-height:100dvh;height:auto}.arena{flex:1;min-height:330px}.login{min-height:330px}@media(min-height:700px){.wrap{height:100dvh}.arena{min-height:280px}}@media(max-width:600px){header{flex-wrap:wrap;gap:4px}.account{margin-left:auto}.account span{max-width:90px}.arena{min-height:330px}}
 </style>
+
 </head>
+
 <body>
+
 <main class="wrap">
- <header><div class="brand">climate<span>.</span>play</div><div class="stats"><div>STREAK<b id="score">0</b></div><div>BEST<b id="best">0</b></div></div></header>
- <section class="intro"><span class="tag">Higher or lower · Fictional demo</span><h1 id="question">Higher or lower losses?</h1><p>Look at the scenario on the right, then click <strong>Higher</strong> or <strong>Lower</strong>.</p><div class="progress" id="progress"></div></section>
- <section class="arena" id="arena" aria-label="Compare the scenarios">
-  <article class="card"><div class="art" id="leftArt"><span class="scenario">FICTIONAL SCENARIO</span><span class="symbol" id="leftIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">The benchmark</div><h2 id="leftTitle"></h2><p class="description" id="leftDesc"></p><div class="amount" id="leftAmount"></div><div class="unit">USD billion · simulated losses</div></div></article>
+
+ <header><div class="brand">climate<span>.</span>play</div><div class="stats"><div>STREAK<b id="score">0</b></div><div>BEST<b id="best">0</b></div></div><div class="account"><span id="playerName"></span><button id="signOut" hidden>Sign out</button></div></header>
+
+ <section class="login" id="loginPanel"><h2>How well do you know climate disasters?</h2><p>Compare real disaster losses. Build a streak of up to 100 correct answers.</p><button class="primary" id="googleLogin" disabled>Loading sign-in…</button><button class="primary" id="beginGame" hidden>Start the challenge →</button><p id="authMessage" role="status"></p><small>When you play, Quantitative Risk Academy stores your Google name, email, score and play dates to track participation and challenge completion. Your email is not displayed publicly. We never receive your Google password.</small></section>
+ <section class="intro" id="gameIntro" hidden><span class="tag">Higher or lower · EM-DAT challenge</span><h1 id="question">Higher or lower losses?</h1><p id="instruction">Compare the event on the right. Click <strong>Higher</strong> or <strong>Lower</strong>.</p><div class="progress" id="progress"></div></section>
+
+ <section class="arena" id="arena" hidden aria-label="Compare the scenarios">
+
+  <article class="card"><div class="art" id="leftArt"><span class="scenario">REAL EVENT · EM-DAT</span><span class="symbol" id="leftIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">The benchmark</div><h2 id="leftTitle"></h2><p class="description" id="leftDesc"></p><div class="amount" id="leftAmount"></div><div class="unit">USD billion · 2024 prices</div></div></article>
+
   <div class="vs" aria-hidden="true">VS</div>
-  <article class="card"><div class="art" id="rightArt"><span class="scenario">FICTIONAL SCENARIO</span><span class="symbol" id="rightIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">Your turn · Choose below ↓</div><h2 id="rightTitle"></h2><p class="description" id="rightDesc"></p><div class="amount" id="rightAmount">?</div><div class="unit">USD billion · simulated losses</div><div class="choices" id="choices"><button id="higher" aria-label="The scenario on the right caused higher losses">↑ Higher</button><button id="lower" aria-label="The scenario on the right caused lower losses">↓ Lower</button></div></div></article>
+
+  <article class="card"><div class="art" id="rightArt"><span class="scenario">REAL EVENT · EM-DAT</span><span class="symbol" id="rightIcon" aria-hidden="true"></span></div><div class="content"><div class="eyebrow">Your turn · Choose below ↓</div><h2 id="rightTitle"></h2><p class="description" id="rightDesc"></p><div class="amount" id="rightAmount">?</div><div class="unit">USD billion · 2024 prices</div><div class="choices" id="choices"><button id="higher" aria-label="The event on the right caused higher losses">↑ Higher</button><button id="lower" aria-label="The event on the right caused lower losses">↓ Lower</button></div></div></article>
+
  </section>
- <section class="feedback" id="feedback" aria-live="polite"><strong id="verdict">Trust your intuition.</strong><p id="explanation">One correct answer = one point. One mistake ends your streak.</p><button class="primary" id="next" hidden>Next comparison →</button></section>
- <section class="result" id="result" hidden><span class="tag">Round complete</span><h2 id="resultTitle"></h2><div class="bigscore" id="finalScore"></div><p id="resultText"></p><div class="actions"><button class="primary" id="restart">Play again ↻</button><button class="secondary" id="share">Share my score</button></div><div class="sharestatus" id="shareStatus" role="status"></div><a class="course" href="https://serineguichoud.github.io/quantitative-risk-academy/climate-risk.html" target="_blank" rel="noopener noreferrer">Explore the climate risk course →</a></section>
- <footer><span>Fictional events &amp; losses · Demonstration only</span><button id="aboutButton" class="textButton">About</button><span class="credit">Dr. Serine Guichoud</span></footer>
-<dialog id="about"><h2>About this demo</h2><p>12 fictional scenarios. Up to 11 comparisons. One mistake ends the game.</p><p>All losses are illustrative total economic losses in the same fictional dollar basis. They are not estimates of real disasters. The explanations describe possible mechanisms, not evidence for the invented amounts.</p><p>Your best score stays in this browser when local storage is available.</p><form method="dialog"><button class="primary">Back to the game</button></form></dialog>
+
+ <section class="feedback" id="feedback" hidden aria-live="polite"><strong id="verdict">Trust your intuition.</strong><p id="explanation">One correct answer = one point. One mistake ends your streak.</p><div class="feedbackActions"><button class="textButton" id="roundSource" hidden>View both source records</button><button class="primary" id="next" hidden>Next comparison →</button></div></section>
+
+ <section class="result" id="result" hidden><span class="tag">Round complete</span><h2 id="resultTitle"></h2><div class="bigscore" id="finalScore"></div><p id="resultText"></p><div class="actions"><button class="primary" id="restart">Play again ↻</button><a class="secondary linkedin" id="share" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fserineguichoud.github.io%2Fquantitative-risk-academy%2Fclimate-game.html" target="_blank" rel="noopener noreferrer">Share on LinkedIn</a><button class="secondary" id="copyScore" hidden>Copy score</button></div><div class="sharestatus" id="shareStatus" role="status"></div><a class="course" href="https://serineguichoud.github.io/quantitative-risk-academy/climate-risk.html" target="_blank" rel="noopener noreferrer">Explore the climate risk course →</a></section>
+
+ <div class="sync" role="status"><span id="saveStatus"></span> <button class="textButton" id="retrySave" hidden>Retry saving</button></div>
+ <footer><span>EM-DAT · 2024 USD · 100-question challenge</span><button id="aboutButton" class="textButton">Sources &amp; questions</button><span class="credit">Dr. Serine Guichoud</span></footer>
+
+<dialog id="about"><h2>Real events. One hundred comparisons.</h2><p>Build the longest streak you can. Each run draws all 100 unique pairs in a fresh order. One mistake ends the run. Repeated events are possible, but no pair repeats within a run.</p><p><strong>Source:</strong> EM-DAT, CRED / UCLouvain, Brussels, Belgium. User-supplied export, database version 26 September 2025; file created 5 October 2025. This is a fixed historical snapshot, not a live feed.</p><p><strong>Metric:</strong> Total Damage, Adjusted ('000 US$), divided by 1,000,000 to obtain billions of US dollars. CPI = 100 for 2024 in this file. All figures refer to the specified country or territory, not necessarily the whole international disaster. No missing value has been replaced with zero.</p><p>Damage estimates may be revised and reporting coverage differs across countries. The game ranks the values in this export; it does not claim that the ordering is certain. Selected pairs differ by at least 25%. These are weather-related disasters, not individual-event attribution claims about climate change.</p><p><a href="https://public.emdat.be/" target="_blank" rel="noopener">EM-DAT data portal</a> · <a href="https://doc.emdat.be/docs/protocols/economic-adjustment/" target="_blank" rel="noopener">Inflation adjustment</a></p><details><summary>Browse all 100 questions and answers (spoilers)</summary><p>The left-hand amount is shown during play. Select Higher if the right-hand event has larger reported adjusted losses.</p><div id="bank"></div></details><form method="dialog"><button class="primary">Back to the game</button></form></dialog>
+
+<dialog id="sourceDialog"><h2>Source records for this comparison</h2><div id="sourceContent"></div><p>Find these DisNo. identifiers in the supplied EM-DAT export or the <a href="https://public.emdat.be/" target="_blank" rel="noopener">EM-DAT portal</a>. Current values may differ from the export.</p><form method="dialog"><button class="primary">Back to the game</button></form></dialog>
+
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-// Fictional demonstration data. Replace with sourced, comparable losses
-// before presenting this as a factual quiz.
-const events = [
-  {
-    "title": "The flooded city",
-    "desc": "Flood · A metropolis and its subway brought to a halt.",
-    "icon": "🌊",
-    "loss": 24,
-    "glow": "#2d7bd6",
-    "why": "Building damage combines with transport disruptions and business interruptions in this fictional scenario."
-  },
-  {
-    "title": "The lost harvest",
-    "desc": "Drought · A farming region loses a growing season.",
-    "icon": "🌾",
-    "loss": 7,
-    "glow": "#2d7bd6",
-    "why": "Lower harvests affect farmers and the businesses that process and transport their products."
-  },
-  {
-    "title": "The silent port",
-    "desc": "Storm · A major commercial port shuts down.",
-    "icon": "🚢",
-    "loss": 18,
-    "glow": "#2d7bd6",
-    "why": "Delayed shipments can interrupt production at customers far beyond the port itself."
-  },
-  {
-    "title": "The burning hills",
-    "desc": "Wildfire · A sparsely developed area is evacuated.",
-    "icon": "🔥",
-    "loss": 3,
-    "glow": "#2d7bd6",
-    "why": "Visible destruction does not always mean the highest financial loss. Human and ecological impacts cannot be reduced to dollars."
-  },
-  {
-    "title": "The critical factory",
-    "desc": "Flood · A supplier of essential components goes offline.",
-    "icon": "🏭",
-    "loss": 32,
-    "glow": "#2d7bd6",
-    "why": "A component that is hard to replace can halt several production chains, creating substantial indirect losses."
-  },
-  {
-    "title": "The relentless heat",
-    "desc": "Heatwave · A large city endures weeks of extreme heat.",
-    "icon": "☀️",
-    "loss": 11,
-    "glow": "#2d7bd6",
-    "why": "Heat can lower productivity and raise energy demand, even without spectacular physical destruction."
-  },
-  {
-    "title": "The shattered coast",
-    "desc": "Cyclone · A densely built coastline takes a direct hit.",
-    "icon": "🌀",
-    "loss": 65,
-    "glow": "#2d7bd6",
-    "why": "A concentration of homes, businesses and infrastructure increases the value of exposed assets."
-  },
-  {
-    "title": "The isolated valley",
-    "desc": "Extreme rain · The only access road is cut off.",
-    "icon": "⛰️",
-    "loss": 1.5,
-    "glow": "#2d7bd6",
-    "why": "Even an inexpensive road can be essential to the communities and businesses that depend on it."
-  },
-  {
-    "title": "The blackout",
-    "desc": "Storm · Power cuts spread across several cities.",
-    "icon": "⚡",
-    "loss": 15,
-    "glow": "#2d7bd6",
-    "why": "Electricity outages interrupt many services and economic activities at the same time."
-  },
-  {
-    "title": "The empty resort",
-    "desc": "Coastal flooding · A seaside resort closes its doors.",
-    "icon": "🏖️",
-    "loss": 5,
-    "glow": "#2d7bd6",
-    "why": "Repair costs are compounded by lost revenue while hotels and other businesses remain closed."
-  },
-  {
-    "title": "The shrinking river",
-    "desc": "Drought · Freight traffic on a major river slows down.",
-    "icon": "🚤",
-    "loss": 9,
-    "glow": "#2d7bd6",
-    "why": "Low water levels limit cargo loads and can increase transport and supply costs."
-  },
-  {
-    "title": "The industrial flood",
-    "desc": "Flood · Several manufacturing districts are hit together.",
-    "icon": "🌧️",
-    "loss": 42,
-    "glow": "#2d7bd6",
-    "why": "When multiple suppliers are hit at once, alternative sources of supply may also be unavailable."
-  }
-];
+
+const events = [{"id": "2005-0467-USA", "title": "Hurricane Katrina", "name": "Katrina", "country": "United States", "year": 2005, "date": "2005-08-29", "type": "Storm", "subtype": "Tropical cyclone", "loss": 200.782317, "adjusted_thousand_usd": 200782317, "original_thousand_usd": 125000000, "cpi": 62.25647852982311, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2017-0362-USA", "title": "Hurricane Harvey", "name": "Hurricane Harvey", "country": "United States", "year": 2017, "date": "2017-08-25", "type": "Storm", "subtype": "Tropical cyclone", "loss": 121.575099, "adjusted_thousand_usd": 121575099, "original_thousand_usd": 95000000, "cpi": 78.14100176276759, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2022-0614-USA", "title": "Hurricane Ian", "name": "Hurricane 'Ian'", "country": "United States", "year": 2022, "date": "2022-09-28", "type": "Storm", "subtype": "Tropical cyclone", "loss": 107.187331, "adjusted_thousand_usd": 107187331, "original_thousand_usd": 100000000, "cpi": 93.29460735164001, "updated": "2023-09-26", "icon": "🌀"}, {"id": "2017-0383-PRI", "title": "Hurricane Maria", "name": "Hurricane 'Maria'", "country": "Puerto Rico", "year": 2017, "date": "2017-09-19", "type": "Storm", "subtype": "Tropical cyclone", "loss": 87.022176, "adjusted_thousand_usd": 87022176, "original_thousand_usd": 68000000, "cpi": 78.14100176276759, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2021-0551-USA", "title": "Tropical storm Ida", "name": "Tropical storm 'Ida'", "country": "United States", "year": 2021, "date": "2021-08-28", "type": "Storm", "subtype": "Tropical cyclone", "loss": 75.247457, "adjusted_thousand_usd": 75247457, "original_thousand_usd": 65000000, "cpi": 86.38165694109576, "updated": "2025-03-05", "icon": "🌀"}, {"id": "2017-0381-USA", "title": "Hurricane Irma", "name": "Hurricane 'Irma'", "country": "United States", "year": 2017, "date": "2017-09-10", "type": "Storm", "subtype": "Tropical cyclone", "loss": 72.945059, "adjusted_thousand_usd": 72945059, "original_thousand_usd": 57000000, "cpi": 78.14100176276759, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2012-0410-USA", "title": "Hurricane Sandy", "name": "Hurricane Sandy", "country": "United States", "year": 2012, "date": "2012-10-28", "type": "Storm", "subtype": "Tropical cyclone", "loss": 68.313858, "adjusted_thousand_usd": 68313858, "original_thousand_usd": 50000000, "cpi": 73.19159160611325, "updated": "2023-09-25", "icon": "🌀"}, {"id": "2024-0693-USA", "title": "Tropical cyclone Helene", "name": "Tropical cyclone 'Helene'", "country": "United States", "year": 2024, "date": "2024-09-25", "type": "Storm", "subtype": "Tropical cyclone", "loss": 56.0, "adjusted_thousand_usd": 56000000, "original_thousand_usd": 56000000, "cpi": 100, "updated": "2025-03-03", "icon": "🌀"}, {"id": "2008-0384-USA", "title": "Hurricane Ike", "name": "Hurricane Ike", "country": "United States", "year": 2008, "date": "2008-09-12", "type": "Storm", "subtype": "Tropical cyclone", "loss": 43.70905, "adjusted_thousand_usd": 43709050, "original_thousand_usd": 30000000, "cpi": 68.6356722808762, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2024-0722-USA", "title": "Hurricane Milton", "name": "Hurricane 'Milton'", "country": "United States", "year": 2024, "date": "2024-10-09", "type": "Storm", "subtype": "Tropical cyclone", "loss": 38.0, "adjusted_thousand_usd": 38000000, "original_thousand_usd": 38000000, "cpi": 100, "updated": "2025-03-05", "icon": "🌀"}, {"id": "2021-0096-USA", "title": "Blizzard/Winter storm", "name": "", "country": "United States", "year": 2021, "date": "2021-02-10", "type": "Storm", "subtype": "Blizzard/Winter storm", "loss": 34.729595, "adjusted_thousand_usd": 34729595, "original_thousand_usd": 30000000, "cpi": 86.38165694109576, "updated": "2023-09-25", "icon": "🌀"}, {"id": "2004-0462-USA", "title": "Hurricane Ivan", "name": "Ivan", "country": "United States", "year": 2004, "date": "2004-09-15", "type": "Storm", "subtype": "Tropical cyclone", "loss": 29.893589, "adjusted_thousand_usd": 29893589, "original_thousand_usd": 18000000, "cpi": 60.21357973293278, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2004-0415-USA", "title": "Hurricane Charley", "name": "Charley", "country": "United States", "year": 2004, "date": "2004-08-13", "type": "Storm", "subtype": "Tropical cyclone", "loss": 26.572079, "adjusted_thousand_usd": 26572079, "original_thousand_usd": 16000000, "cpi": 60.21357973293278, "updated": "2025-03-04", "icon": "🌀"}, {"id": "2023-0464-CHN", "title": "Tropical cyclone Doksuri (Egay)", "name": "Tropical cyclone 'Doksuri' (Egay)", "country": "China", "year": 2023, "date": "2023-07-27", "type": "Storm", "subtype": "Tropical cyclone", "loss": 25.737378, "adjusted_thousand_usd": 25737378, "original_thousand_usd": 25000000, "cpi": 97.13499263687517, "updated": "2024-06-17", "icon": "🌀"}, {"id": "2005-0547-USA", "title": "Hurricane Rita", "name": "Rita", "country": "United States", "year": 2005, "date": "2005-09-23", "type": "Storm", "subtype": "Tropical cyclone", "loss": 25.700137, "adjusted_thousand_usd": 25700137, "original_thousand_usd": 16000000, "cpi": 62.25647852982311, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2005-0585-USA", "title": "Hurricane Wilma", "name": "Hurricane \"Wilma\"", "country": "United States", "year": 2005, "date": "2005-10-24", "type": "Storm", "subtype": "Tropical cyclone", "loss": 22.969497, "adjusted_thousand_usd": 22969497, "original_thousand_usd": 14300000, "cpi": 62.25647852982311, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2019-0492-JPN", "title": "Tropical cyclone Hagibis", "name": "Tropical cylone 'Hagibis'", "country": "Japan", "year": 2019, "date": "2019-10-12", "type": "Storm", "subtype": "Tropical cyclone", "loss": 20.858817, "adjusted_thousand_usd": 20858817, "original_thousand_usd": 17000000, "cpi": 81.50030940991486, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2018-0373-USA", "title": "Hurricane Michael", "name": "Hurricane Michael", "country": "United States", "year": 2018, "date": "2018-10-10", "type": "Storm", "subtype": "Tropical cyclone", "loss": 19.987609, "adjusted_thousand_usd": 19987609, "original_thousand_usd": 16000000, "cpi": 80.04959625595113, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2011-0172-USA", "title": "Tornado", "name": "", "country": "United States", "year": 2011, "date": "2011-05-20", "type": "Storm", "subtype": "Tornado", "loss": 19.523699, "adjusted_thousand_usd": 19523699, "original_thousand_usd": 14000000, "cpi": 71.7077236119433, "updated": "2025-06-25", "icon": "🌀"}, {"id": "2004-0455-USA", "title": "Hurricane Frances", "name": "Frances", "country": "United States", "year": 2004, "date": "2004-09-05", "type": "Storm", "subtype": "Tropical cyclone", "loss": 18.268304, "adjusted_thousand_usd": 18268304, "original_thousand_usd": 11000000, "cpi": 60.21357973293278, "updated": "2023-09-25", "icon": "🌀"}, {"id": "2011-0326-THA", "title": "Riverine flood", "name": "", "country": "Thailand", "year": 2011, "date": "2011-08-05", "type": "Flood", "subtype": "Riverine flood", "loss": 55.781997, "adjusted_thousand_usd": 55781997, "original_thousand_usd": 40000000, "cpi": 71.7077236119433, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2021-0411-DEU", "title": "Floods", "name": "", "country": "Germany", "year": 2021, "date": "2021-07-12", "type": "Flood", "subtype": "Flood (General)", "loss": 46.306127, "adjusted_thousand_usd": 46306127, "original_thousand_usd": 40000000, "cpi": 86.38165694109576, "updated": "2024-11-08", "icon": "🌊"}, {"id": "2016-0241-CHN", "title": "Floods", "name": "", "country": "China", "year": 2016, "date": "2016-06-28", "type": "Flood", "subtype": "Flood (General)", "loss": 28.753954, "adjusted_thousand_usd": 28753954, "original_thousand_usd": 22000000, "cpi": 76.51121620386147, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2010-0239-CHN", "title": "Riverine flood", "name": "", "country": "China", "year": 2010, "date": "2010-05-29", "type": "Flood", "subtype": "Riverine flood", "loss": 25.894328, "adjusted_thousand_usd": 25894328, "original_thousand_usd": 18000000, "cpi": 69.51329329264284, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2014-0343-IND", "title": "Riverine flood", "name": "", "country": "India", "year": 2014, "date": "2014-09", "type": "Flood", "subtype": "Riverine flood", "loss": 21.200911, "adjusted_thousand_usd": 21200911, "original_thousand_usd": 16000000, "cpi": 75.46845567806861, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2020-0322-CHN", "title": "Floods", "name": "", "country": "China", "year": 2020, "date": "2020-05-21", "type": "Flood", "subtype": "Flood (General)", "loss": 20.604641, "adjusted_thousand_usd": 20604641, "original_thousand_usd": 17000000, "cpi": 82.50568384880243, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2002-0467-DEU", "title": "Floods", "name": "", "country": "Germany", "year": 2002, "date": "2002-08-11", "type": "Flood", "subtype": "Flood (General)", "loss": 20.229557, "adjusted_thousand_usd": 20229557, "original_thousand_usd": 11600000, "cpi": 57.34184015407783, "updated": "2025-07-23", "icon": "🌊"}, {"id": "2021-0428-CHN", "title": "Floods", "name": "", "country": "China", "year": 2021, "date": "2021-06-01", "type": "Flood", "subtype": "Flood (General)", "loss": 19.101277, "adjusted_thousand_usd": 19101277, "original_thousand_usd": 16500000, "cpi": 86.38165694109576, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2013-0205-DEU", "title": "Riverine flood", "name": "", "country": "Germany", "year": 2013, "date": "2013-05-28", "type": "Flood", "subtype": "Riverine flood", "loss": 17.370526, "adjusted_thousand_usd": 17370526, "original_thousand_usd": 12900000, "cpi": 74.26372907327385, "updated": "2025-07-30", "icon": "🌊"}, {"id": "2022-0405-PAK", "title": "Floods", "name": "", "country": "Pakistan", "year": 2022, "date": "2022-06-14", "type": "Flood", "subtype": "Flood (General)", "loss": 16.0781, "adjusted_thousand_usd": 16078100, "original_thousand_usd": 15000000, "cpi": 93.29460735164001, "updated": "2023-09-26", "icon": "🌊"}, {"id": "2000-0671-ITA", "title": "Riverine flood", "name": "", "country": "Italy", "year": 2000, "date": "2000-10-13", "type": "Flood", "subtype": "Riverine flood", "loss": 14.573236, "adjusted_thousand_usd": 14573236, "original_thousand_usd": 8000000, "cpi": 54.89515197353657, "updated": "2025-07-22", "icon": "🌊"}, {"id": "2008-0627-USA", "title": "Riverine flood", "name": "", "country": "United States", "year": 2008, "date": "2008-06-09", "type": "Flood", "subtype": "Riverine flood", "loss": 14.569683, "adjusted_thousand_usd": 14569683, "original_thousand_usd": 10000000, "cpi": 68.6356722808762, "updated": "2025-06-25", "icon": "🌊"}, {"id": "2010-0341-PAK", "title": "Flash flood", "name": "", "country": "Pakistan", "year": 2010, "date": "2010-07-28", "type": "Flood", "subtype": "Flash flood", "loss": 13.666451, "adjusted_thousand_usd": 13666451, "original_thousand_usd": 9500000, "cpi": 69.51329329264284, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2000-0606-JPN", "title": "Coastal flood", "name": "", "country": "Japan", "year": 2000, "date": "2000-09-10", "type": "Flood", "subtype": "Coastal flood", "loss": 13.553109, "adjusted_thousand_usd": 13553109, "original_thousand_usd": 7440000, "cpi": 54.89515197353657, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2003-0315-CHN", "title": "Riverine flood", "name": "", "country": "China", "year": 2003, "date": "2003-06-23", "type": "Flood", "subtype": "Riverine flood", "loss": 13.454164, "adjusted_thousand_usd": 13454164, "original_thousand_usd": 7890000, "cpi": 58.6435529778532, "updated": "2023-09-25", "icon": "🌊"}, {"id": "2012-9489-USA", "title": "Drought", "name": "", "country": "United States", "year": 2012, "date": "2012-06", "type": "Drought", "subtype": "Drought", "loss": 27.325543, "adjusted_thousand_usd": 27325543, "original_thousand_usd": 20000000, "cpi": 73.19159160611325, "updated": "2023-09-25", "icon": "☀️"}, {"id": "2022-9209-USA", "title": "Drought", "name": "", "country": "United States", "year": 2022, "date": "2022-01", "type": "Drought", "subtype": "Drought", "loss": 23.581213, "adjusted_thousand_usd": 23581213, "original_thousand_usd": 22000000, "cpi": 93.29460735164001, "updated": "2025-06-25", "icon": "☀️"}, {"id": "2023-9868-USA", "title": "Drought", "name": "", "country": "United States", "year": 2023, "date": "2023-04-01", "type": "Drought", "subtype": "Drought", "loss": 14.927679, "adjusted_thousand_usd": 14927679, "original_thousand_usd": 14500000, "cpi": 97.13499263687517, "updated": "2024-02-27", "icon": "☀️"}, {"id": "2011-9363-USA", "title": "Drought", "name": "", "country": "United States", "year": 2011, "date": "2011-01", "type": "Drought", "subtype": "Drought", "loss": 11.156399, "adjusted_thousand_usd": 11156399, "original_thousand_usd": 8000000, "cpi": 71.7077236119433, "updated": "2025-03-17", "icon": "☀️"}, {"id": "2021-9846-USA", "title": "Drought", "name": "", "country": "United States", "year": 2021, "date": "2021-01-01", "type": "Drought", "subtype": "Drought", "loss": 10.418879, "adjusted_thousand_usd": 10418879, "original_thousand_usd": 9000000, "cpi": 86.38165694109576, "updated": "2024-04-23", "icon": "☀️"}, {"id": "2018-0409-USA", "title": "Camp Fire", "name": "Camp Fire", "country": "United States", "year": 2018, "date": "2018-06-01", "type": "Wildfire", "subtype": "Forest fire", "loss": 20.612221, "adjusted_thousand_usd": 20612221, "original_thousand_usd": 16500000, "cpi": 80.04959625595113, "updated": "2023-09-25", "icon": "🔥"}, {"id": "2017-0434-USA", "title": "Tubbs, Atlas, Nuns Fires", "name": "Tubbs, Atlas, Nuns Fires", "country": "United States", "year": 2017, "date": "2017-06-01", "type": "Wildfire", "subtype": "Land fire (Brush, Bush, Pasture)", "loss": 16.636592, "adjusted_thousand_usd": 16636592, "original_thousand_usd": 13000000, "cpi": 78.14100176276759, "updated": "2025-03-12", "icon": "🔥"}, {"id": "2020-0441-USA", "title": "August Complex fire", "name": "August Complex fire", "country": "United States", "year": 2020, "date": "2020-08-16", "type": "Wildfire", "subtype": "Forest fire", "loss": 13.332415, "adjusted_thousand_usd": 13332415, "original_thousand_usd": 11000000, "cpi": 82.50568384880243, "updated": "2023-09-25", "icon": "🔥"}, {"id": "2018-0468-USA", "title": "Woolsey Fire", "name": "Woolsey Fire", "country": "United States", "year": 2018, "date": "2018-11-08", "type": "Wildfire", "subtype": "Wildfire (General)", "loss": 6.495973, "adjusted_thousand_usd": 6495973, "original_thousand_usd": 5200000, "cpi": 80.04959625595113, "updated": "2023-09-25", "icon": "🔥"}, {"id": "2003-0786-USA", "title": "Forest fire", "name": "", "country": "United States", "year": 2003, "date": "2003-10-21", "type": "Wildfire", "subtype": "Forest fire", "loss": 5.96826, "adjusted_thousand_usd": 5968260, "original_thousand_usd": 3500000, "cpi": 58.6435529778532, "updated": "2023-09-25", "icon": "🔥"}, {"id": "2008-0020-CHN", "title": "Severe winter conditions", "name": "", "country": "China", "year": 2008, "date": "2008-01-10", "type": "Extreme temperature", "subtype": "Severe winter conditions", "loss": 30.742032, "adjusted_thousand_usd": 30742032, "original_thousand_usd": 21100000, "cpi": 68.6356722808762, "updated": "2023-09-25", "icon": "🌡️"}, {"id": "2003-0391-FRA", "title": "Heat wave", "name": "", "country": "France", "year": 2003, "date": "2003-08-01", "type": "Extreme temperature", "subtype": "Heat wave", "loss": 7.502956, "adjusted_thousand_usd": 7502956, "original_thousand_usd": 4400000, "cpi": 58.6435529778532, "updated": "2023-09-25", "icon": "🌡️"}, {"id": "2003-0391-ITA", "title": "Heat wave", "name": "", "country": "Italy", "year": 2003, "date": "2003-07-16", "type": "Extreme temperature", "subtype": "Heat wave", "loss": 7.502956, "adjusted_thousand_usd": 7502956, "original_thousand_usd": 4400000, "cpi": 58.6435529778532, "updated": "2023-09-25", "icon": "🌡️"}, {"id": "2021-0825-FRA", "title": "Cold wave", "name": "", "country": "France", "year": 2021, "date": "2021-04-05", "type": "Extreme temperature", "subtype": "Cold wave", "loss": 6.482858, "adjusted_thousand_usd": 6482858, "original_thousand_usd": 5600000, "cpi": 86.38165694109576, "updated": "2024-04-23", "icon": "🌡️"}, {"id": "2014-0009-USA", "title": "Cold wave", "name": "", "country": "United States", "year": 2014, "date": "2014-01-05", "type": "Extreme temperature", "subtype": "Cold wave", "loss": 3.312642, "adjusted_thousand_usd": 3312642, "original_thousand_usd": 2500000, "cpi": 75.46845567806861, "updated": "2025-06-25", "icon": "🌡️"}];
+
+const questions = [{"id": "Q001", "left": 31, "right": 17, "answer": "Higher"}, {"id": "Q002", "left": 22, "right": 40, "answer": "Lower"}, {"id": "Q003", "left": 38, "right": 18, "answer": "Higher"}, {"id": "Q004", "left": 29, "right": 44, "answer": "Lower"}, {"id": "Q005", "left": 35, "right": 21, "answer": "Higher"}, {"id": "Q006", "left": 6, "right": 24, "answer": "Lower"}, {"id": "Q007", "left": 36, "right": 11, "answer": "Higher"}, {"id": "Q008", "left": 28, "right": 47, "answer": "Lower"}, {"id": "Q009", "left": 43, "right": 32, "answer": "Higher"}, {"id": "Q010", "left": 2, "right": 41, "answer": "Lower"}, {"id": "Q011", "left": 49, "right": 30, "answer": "Higher"}, {"id": "Q012", "left": 14, "right": 48, "answer": "Lower"}, {"id": "Q013", "left": 46, "right": 34, "answer": "Higher"}, {"id": "Q014", "left": 20, "right": 19, "answer": "Lower"}, {"id": "Q015", "left": 23, "right": 10, "answer": "Higher"}, {"id": "Q016", "left": 27, "right": 37, "answer": "Lower"}, {"id": "Q017", "left": 39, "right": 25, "answer": "Higher"}, {"id": "Q018", "left": 4, "right": 42, "answer": "Lower"}, {"id": "Q019", "left": 26, "right": 3, "answer": "Higher"}, {"id": "Q020", "left": 8, "right": 45, "answer": "Lower"}, {"id": "Q021", "left": 33, "right": 15, "answer": "Higher"}, {"id": "Q022", "left": 9, "right": 16, "answer": "Lower"}, {"id": "Q023", "left": 12, "right": 5, "answer": "Higher"}, {"id": "Q024", "left": 0, "right": 13, "answer": "Lower"}, {"id": "Q025", "left": 7, "right": 1, "answer": "Higher"}, {"id": "Q026", "left": 4, "right": 31, "answer": "Lower"}, {"id": "Q027", "left": 35, "right": 9, "answer": "Higher"}, {"id": "Q028", "left": 6, "right": 45, "answer": "Lower"}, {"id": "Q029", "left": 47, "right": 26, "answer": "Higher"}, {"id": "Q030", "left": 5, "right": 28, "answer": "Lower"}, {"id": "Q031", "left": 43, "right": 7, "answer": "Higher"}, {"id": "Q032", "left": 29, "right": 48, "answer": "Lower"}, {"id": "Q033", "left": 49, "right": 33, "answer": "Higher"}, {"id": "Q034", "left": 1, "right": 40, "answer": "Lower"}, {"id": "Q035", "left": 17, "right": 23, "answer": "Higher"}, {"id": "Q036", "left": 13, "right": 38, "answer": "Lower"}, {"id": "Q037", "left": 42, "right": 14, "answer": "Higher"}, {"id": "Q038", "left": 10, "right": 32, "answer": "Lower"}, {"id": "Q039", "left": 39, "right": 21, "answer": "Higher"}, {"id": "Q040", "left": 2, "right": 20, "answer": "Lower"}, {"id": "Q041", "left": 41, "right": 0, "answer": "Higher"}, {"id": "Q042", "left": 19, "right": 34, "answer": "Lower"}, {"id": "Q043", "left": 36, "right": 3, "answer": "Higher"}, {"id": "Q044", "left": 8, "right": 44, "answer": "Lower"}, {"id": "Q045", "left": 37, "right": 25, "answer": "Higher"}, {"id": "Q046", "left": 22, "right": 18, "answer": "Lower"}, {"id": "Q047", "left": 24, "right": 11, "answer": "Higher"}, {"id": "Q048", "left": 12, "right": 27, "answer": "Lower"}, {"id": "Q049", "left": 30, "right": 16, "answer": "Higher"}, {"id": "Q050", "left": 15, "right": 46, "answer": "Lower"}, {"id": "Q051", "left": 35, "right": 5, "answer": "Higher"}, {"id": "Q052", "left": 27, "right": 43, "answer": "Lower"}, {"id": "Q053", "left": 42, "right": 17, "answer": "Higher"}, {"id": "Q054", "left": 7, "right": 28, "answer": "Lower"}, {"id": "Q055", "left": 26, "right": 11, "answer": "Higher"}, {"id": "Q056", "left": 6, "right": 22, "answer": "Lower"}, {"id": "Q057", "left": 31, "right": 45, "answer": "Higher"}, {"id": "Q058", "left": 2, "right": 47, "answer": "Lower"}, {"id": "Q059", "left": 36, "right": 10, "answer": "Higher"}, {"id": "Q060", "left": 15, "right": 48, "answer": "Lower"}, {"id": "Q061", "left": 29, "right": 16, "answer": "Higher"}, {"id": "Q062", "left": 14, "right": 49, "answer": "Lower"}, {"id": "Q063", "left": 32, "right": 8, "answer": "Higher"}, {"id": "Q064", "left": 23, "right": 46, "answer": "Lower"}, {"id": "Q065", "left": 38, "right": 3, "answer": "Higher"}, {"id": "Q066", "left": 9, "right": 34, "answer": "Lower"}, {"id": "Q067", "left": 25, "right": 4, "answer": "Higher"}, {"id": "Q068", "left": 18, "right": 33, "answer": "Lower"}, {"id": "Q069", "left": 30, "right": 40, "answer": "Higher"}, {"id": "Q070", "left": 12, "right": 41, "answer": "Lower"}, {"id": "Q071", "left": 44, "right": 20, "answer": "Higher"}, {"id": "Q072", "left": 21, "right": 13, "answer": "Lower"}, {"id": "Q073", "left": 37, "right": 1, "answer": "Higher"}, {"id": "Q074", "left": 0, "right": 24, "answer": "Lower"}, {"id": "Q075", "left": 39, "right": 19, "answer": "Higher"}, {"id": "Q076", "left": 11, "right": 49, "answer": "Lower"}, {"id": "Q077", "left": 27, "right": 6, "answer": "Higher"}, {"id": "Q078", "left": 5, "right": 34, "answer": "Lower"}, {"id": "Q079", "left": 38, "right": 17, "answer": "Higher"}, {"id": "Q080", "left": 39, "right": 47, "answer": "Lower"}, {"id": "Q081", "left": 24, "right": 45, "answer": "Higher"}, {"id": "Q082", "left": 4, "right": 22, "answer": "Lower"}, {"id": "Q083", "left": 26, "right": 14, "answer": "Higher"}, {"id": "Q084", "left": 10, "right": 35, "answer": "Lower"}, {"id": "Q085", "left": 43, "right": 25, "answer": "Higher"}, {"id": "Q086", "left": 7, "right": 31, "answer": "Lower"}, {"id": "Q087", "left": 48, "right": 3, "answer": "Higher"}, {"id": "Q088", "left": 21, "right": 42, "answer": "Lower"}, {"id": "Q089", "left": 15, "right": 20, "answer": "Higher"}, {"id": "Q090", "left": 16, "right": 41, "answer": "Lower"}, {"id": "Q091", "left": 28, "right": 1, "answer": "Higher"}, {"id": "Q092", "left": 8, "right": 29, "answer": "Lower"}, {"id": "Q093", "left": 46, "right": 40, "answer": "Higher"}, {"id": "Q094", "left": 0, "right": 32, "answer": "Lower"}, {"id": "Q095", "left": 33, "right": 19, "answer": "Higher"}, {"id": "Q096", "left": 2, "right": 23, "answer": "Lower"}, {"id": "Q097", "left": 37, "right": 18, "answer": "Higher"}, {"id": "Q098", "left": 13, "right": 44, "answer": "Lower"}, {"id": "Q099", "left": 30, "right": 36, "answer": "Higher"}, {"id": "Q100", "left": 9, "right": 12, "answer": "Lower"}];
+
 const $ = id => document.getElementById(id);
-const format = n => new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(n);
-const key = 'climate-play-demo-best-v1';
-let deck, position, score, best = 0, locked, correct, finished;
-try { best = Math.max(0, Math.min(events.length-1, Number(localStorage.getItem(key)) || 0)); } catch {}
+
+const format = n => new Intl.NumberFormat('en-US',{minimumFractionDigits:1,maximumFractionDigits:1}).format(n);
+
+const exact = n => new Intl.NumberFormat('en-US',{maximumFractionDigits:6}).format(n);
+
+const key = 'climate-play-emdat-20250926-100-best';
+
+let deck, position, score, best=0, locked, correct, finished;
+
+try {best=Math.max(0,Math.min(100,Number(localStorage.getItem(key))||0));} catch {}
+
 function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function paint(side,event){$(side+'Title').textContent=event.title;$(side+'Desc').textContent=event.desc;$(side+'Icon').textContent=event.icon;$(side+'Art').style.setProperty('--glow',event.glow);}
-function start(){deck=shuffle(events);position=1;score=0;finished=false;$('score').textContent=score;$('best').textContent=best;$('arena').hidden=false;$('feedback').hidden=false;$('result').hidden=true;$('shareStatus').textContent='';render();}
-function render(){locked=false;paint('left',deck[position-1]);paint('right',deck[position]);$('leftAmount').textContent=format(deck[position-1].loss);$('rightAmount').textContent='?';$('higher').disabled=false;$('lower').disabled=false;$('choices').hidden=false;$('next').hidden=true;$('question').textContent='Higher or lower than $'+format(deck[position-1].loss)+' billion?';$('verdict').textContent='Can you beat your best streak?';$('verdict').style.color='';$('explanation').textContent='Compare the scenarios and make your choice.';$('progress').textContent='COMPARISON '+position+' / '+(deck.length-1);}
-function reveal(value){if(matchMedia('(prefers-reduced-motion: reduce)').matches){$('rightAmount').textContent=format(value);return Promise.resolve();}return new Promise(resolve=>{const start=performance.now();function frame(now){const t=Math.min((now-start)/650,1);$('rightAmount').textContent=format(value*(1-Math.pow(1-t,3)));if(t<1)requestAnimationFrame(frame);else resolve();}requestAnimationFrame(frame);});}
-async function guess(higher){if(locked||finished)return;locked=true;$('higher').disabled=true;$('lower').disabled=true;const previous=deck[position-1],current=deck[position];correct=higher?current.loss>previous.loss:current.loss<previous.loss;await reveal(current.loss);$('choices').hidden=true;if(correct){score++;$('score').textContent=score;if(score>best){best=score;$('best').textContent=best;try{localStorage.setItem(key,String(best));}catch{}}}$('verdict').textContent=correct?'You got it!':'Not quite — now you know.';$('verdict').style.color=correct?'var(--accent)':'var(--error)';$('explanation').textContent=current.why;$('next').textContent=correct&&position<deck.length-1?'Next comparison →':'See my result →';$('next').hidden=false;$('next').focus();}
-function finish(){finished=true;$('question').textContent='Your climate challenge result';$('arena').hidden=true;$('feedback').hidden=true;$('result').hidden=false;$('progress').textContent='';$('resultTitle').textContent=score===deck.length-1?'A perfect streak!':score>=5?'An impressive streak!':'Ready for another try?';$('finalScore').textContent=score+' / '+(deck.length-1);$('resultText').textContent=score+' correct answer'+(score===1?'':'s')+' in a row. Personal best: '+best+'.';$('restart').focus();}
+
+function current(){const q=deck[position];return {q,left:events[q.left],right:events[q.right]};}
+
+function paint(side,e){$(side+'Title').textContent=e.title;$(side+'Desc').textContent=e.country+' · '+e.date+' · '+e.type;$(side+'Icon').textContent=e.icon;}
+
+function start(){if(!player)return;attemptId=crypto.randomUUID();$('loginPanel').hidden=true;$('gameIntro').hidden=false;deck=shuffle(questions);position=0;score=0;finished=false;$('score').textContent=score;$('best').textContent=best;$('arena').hidden=false;$('feedback').hidden=false;$('result').hidden=true;$('shareStatus').textContent='Share the game on LinkedIn, then paste your score into the post.';$('copyScore').hidden=true;$('instruction').textContent='Compare the event on the right. Click Higher or Lower.';render();saveProgress('in_progress',0);}
+
+function render(){locked=false;const {left,right}=current();paint('left',left);paint('right',right);$('leftAmount').textContent=format(left.loss);$('rightAmount').textContent='?';$('higher').disabled=false;$('lower').disabled=false;$('choices').hidden=false;$('next').hidden=true;$('roundSource').hidden=true;$('question').textContent='Higher or lower than $'+format(left.loss)+' billion?';$('verdict').textContent='100 questions. One mistake ends your streak.';$('verdict').style.color='';$('explanation').textContent='Compare reported losses for the countries shown, at 2024 prices.';$('progress').textContent='QUESTION '+(position+1)+' / '+deck.length+' · REAL-EVENT CHALLENGE';}
+
+function reveal(value){if(matchMedia('(prefers-reduced-motion: reduce)').matches){$('rightAmount').textContent=format(value);return Promise.resolve();}return new Promise(resolve=>{const t0=performance.now();function frame(now){const t=Math.min((now-t0)/650,1);$('rightAmount').textContent=format(value*(1-Math.pow(1-t,3)));if(t<1)requestAnimationFrame(frame);else resolve();}requestAnimationFrame(frame);});}
+
+async function guess(higher){if(!player||locked||finished)return;locked=true;$('higher').disabled=true;$('lower').disabled=true;const {left,right}=current();correct=higher?right.loss>left.loss:right.loss<left.loss;await reveal(right.loss);$('choices').hidden=true;if(correct){score++;$('score').textContent=score;if(score>best){best=score;$('best').textContent=best;try{localStorage.setItem(key,String(best));}catch{}}}$('verdict').textContent=correct?'Correct! Keep your streak alive.':'Not this time. Here are the reported losses.';$('verdict').style.color=correct?'var(--accent)':'var(--error)';$('explanation').textContent=right.title+' ('+right.country+', '+right.year+'): $'+format(right.loss)+'bn — '+(right.loss>left.loss?'higher':'lower')+' than '+left.title+' at $'+format(left.loss)+'bn. Both in 2024 USD.';$('next').textContent=correct&&position<deck.length-1?'Next question →':'See my result →';$('roundSource').hidden=false;$('next').hidden=false;saveProgress(correct?(score===100?'completed':'in_progress'):'failed',position+1);$('next').focus();}
+
+function finish(){finished=true;$('question').textContent='Your climate challenge result';$('instruction').textContent='A challenge based on real EM-DAT disaster records.';$('arena').hidden=true;$('feedback').hidden=true;$('result').hidden=false;$('progress').textContent='';$('resultTitle').textContent=score===100?'100 out of 100!':score>=20?'An impressive streak!':'Ready for another try?';$('finalScore').textContent=score+' / 100';$('resultText').textContent=score+' correct answer'+(score===1?'':'s')+' in a row. Personal best: '+best+'.';$('restart').focus();}
+
+function record(e){const d=document.createElement('div');d.className='record';const h=document.createElement('h3');h.textContent=e.title+' — '+e.country+' ('+e.year+')';d.append(h);for(const t of ['DisNo.: '+e.id,'Start date: '+e.date+' | Type: '+e.type+' / '+e.subtype,'Adjusted damage: $'+exact(e.loss)+' billion (2024 USD)','Original export value: '+e.adjusted_thousand_usd+" thousand adjusted USD",'Source record last updated: '+e.updated]){const p=document.createElement('p');p.textContent=t;d.append(p);}return d;}
+
+$('roundSource').onclick=()=>{const {left,right}=current();$('sourceContent').replaceChildren(record(left),record(right));$('sourceDialog').showModal();};
+
 $('higher').onclick=()=>guess(true);$('lower').onclick=()=>guess(false);$('next').onclick=()=>{if(!locked)return;if(correct&&position<deck.length-1){position++;render();$('higher').focus();}else finish();};$('restart').onclick=start;
-$('share').onclick=async()=>{const text='🌍 Climate Play — '+score+'/'+(deck.length-1)+'! Can you beat my score?\nHigher or Lower · fictional climate scenarios.';try{await navigator.clipboard.writeText(text);$('shareStatus').textContent='Score copied! Paste it into your message.';}catch{window.prompt('Copy your score:',text);}};
-$('aboutButton').onclick=()=>$('about').showModal();
-start();
+
+const gameUrl='https://serineguichoud.github.io/quantitative-risk-academy/climate-game.html';
+
+function scoreText() {
+
+  return '🌍 I just played this climate risk game and scored '
+
+    + score + '/100!\n\n'
+
+    + 'Can you beat my score? Compare the costs of real climate disasters and test your intuition.\n\n'
+
+    + 'Play here: ' + gameUrl + '\n\n'
+
+    + '#ClimateRisk #RiskManagement';
+
+}
+
+async function copyScore(manual = false) {
+
+  try {
+
+    await navigator.clipboard.writeText(scoreText());
+
+
+
+    $('shareStatus').textContent =
+
+      'Score copied! Paste it into your LinkedIn post.';
+
+
+
+    $('copyScore').hidden = false;
+
+  } catch {
+
+    $('copyScore').hidden = false;
+
+
+
+    $('shareStatus').textContent =
+
+      'Click Copy score, then copy and paste the message into LinkedIn.';
+
+
+
+    if (manual) {
+
+      window.prompt(
+
+        'Copy this message and paste it into LinkedIn:',
+
+        scoreText()
+
+      );
+
+    }
+
+  }
+
+}
+
+// Keep the native link click synchronous so the new tab is not blocked.
+
+$('share').onclick=()=>{copyScore();};
+
+$('copyScore').onclick=()=>{copyScore(true);};
+
+$('aboutButton').onclick=()=>{$('about').showModal();};
+
+for(const q of questions){const a=events[q.left],b=events[q.right],row=document.createElement('div');row.className='bankRow';const title=document.createElement('strong');title.textContent=q.id+': '+a.title+' ('+a.country+', '+a.year+') vs '+b.title+' ('+b.country+', '+b.year+')';const p=document.createElement('p');p.textContent='Left: $'+format(a.loss)+'bn | Right: $'+format(b.loss)+'bn | Answer: '+q.answer+' | '+a.id+' / '+b.id;row.append(title,p);$('bank').append(row);}
+
+
+const client = window.supabase ? window.supabase.createClient(
+ 'https://tsjzxijuyjaqwuicvlfb.supabase.co',
+ 'sb_publishable_eRqO1tWfQQgf6cDoX3gqvQ_lzNDP1kL'
+) : null;
+let player=null, attemptId=null, pending={}, flushing=false;
+const pendingKey='climate-play-pending-v1';
+try{pending=JSON.parse(localStorage.getItem(pendingKey)||'{}');}catch{}
+function persistPending(){try{localStorage.setItem(pendingKey,JSON.stringify(pending));}catch{}}
+function saveProgress(status,answered){
+ if(!player||!attemptId)return;
+ pending[attemptId]={user:player.id,args:{p_id:attemptId,p_score:score,p_answered:answered,p_status:status}};
+ persistPending();flushPending();
+}
+async function flushPending(){
+ if(flushing||!player||!client)return;
+ flushing=true; $('retrySave').hidden=true;
+ try{
+  while(true){
+   const item=Object.entries(pending).find(([,v])=>v.user===player.id);
+   if(!item)break;
+   const [id,snapshot]=item;
+   $('saveStatus').textContent='Saving progress…';
+   const {error}=await client.rpc('record_climate_attempt',snapshot.args);
+   if(error)throw error;
+   if(pending[id]===snapshot)delete pending[id];
+   persistPending();
+  }
+  $('saveStatus').textContent='Progress saved';
+ }catch(e){$('saveStatus').textContent='Progress not saved yet. Check your connection and retry.';$('retrySave').hidden=false;}
+ finally{flushing=false;}
+}
+function showAccount(user){
+ player=user;
+ $('playerName').textContent=user?(user.user_metadata.full_name||user.user_metadata.name||user.email):'';
+ $('signOut').hidden=!user;$('googleLogin').hidden=!!user;$('beginGame').hidden=!user;
+ $('googleLogin').disabled=false;$('googleLogin').textContent='Continue with Google';
+ if(user)flushPending();
+}
+async function initAuth(){
+ if(!client){$('authMessage').textContent='Sign-in could not load. Please refresh the page.';return;}
+ try{
+ const {data,error}=await client.auth.getSession();if(error)throw error;showAccount(data.session?.user||null);
+ const authError=new URLSearchParams(location.hash.slice(1)).get('error_description');
+ if(authError)$('authMessage').textContent=authError;
+ client.auth.onAuthStateChange((event,session)=>{
+  if(event==='SIGNED_OUT'){location.reload();return;}
+  if(session?.user)setTimeout(()=>showAccount(session.user),0);
+ });
+ }catch(e){$('authMessage').textContent='Unable to load sign-in. Please refresh and try again.';}
+}
+$('googleLogin').onclick=async()=>{
+ $('googleLogin').disabled=true;$('authMessage').textContent='Opening Google…';
+ try{const {error}=await client.auth.signInWithOAuth({provider:'google',options:{redirectTo:gameUrl}});if(error)throw error;}
+ catch(e){$('authMessage').textContent='Sign-in failed. Please try again.';$('googleLogin').disabled=false;}
+};
+$('beginGame').onclick=start;
+$('retrySave').onclick=flushPending;
+window.addEventListener('online',flushPending);
+$('signOut').onclick=async()=>{
+ if(flushing||Object.values(pending).some(v=>v.user===player?.id)){
+  await flushPending();
+  if(flushing||Object.values(pending).some(v=>v.user===player?.id)){$('authMessage').textContent='Please retry saving before signing out.';$('saveStatus').textContent='Please retry saving before signing out.';return;}
+ }
+ const {error}=await client.auth.signOut();if(error)$('saveStatus').textContent='Sign-out failed. Please try again.';
+};
+
+initAuth();
+
 </script>
+
 </body>
+
 </html>
